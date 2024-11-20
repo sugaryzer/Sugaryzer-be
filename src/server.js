@@ -1,13 +1,12 @@
-require('dotenv').config();
+require('dotenv').config();  // load enviroment var from .env
 const express = require('express');
-const cors = require('./middleware/cors.js');
 const app = express();
 
-// parse json request body
-app.use(express.json());
+const cors = require('./middleware/cors.js');
+const db = require('./models');
 
-// apply cors
-app.use(cors());
+app.use(express.json()); // parse json request body
+app.use(cors()); // apply cors
 
 //ROUTERS
 const productsRouter = require('./routes/products');
@@ -19,7 +18,11 @@ app.use('/recommendations', recommendationsRouter);
 const usersRouter = require('./routes/users');
 app.use('/users', usersRouter);
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Running on port ${port}`);
+
+const port = process.env.PORT;
+// sync models with connected db
+db.sequelize.sync().then(() => {
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
 });
