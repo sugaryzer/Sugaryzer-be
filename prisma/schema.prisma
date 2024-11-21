@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(100)
+  email     String    @unique
+  password  String?   @db.VarChar(100)
+  image     String?   @db.VarChar(100)
+  token     String?   @db.VarChar(100)
+
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+
+  scannedProducts Scannedproduct[]
+
+  @@map("users")
+}
+
+model Product {
+  id                Int             @id @default(autoincrement())
+  code              String          @db.VarChar(100)
+  name              String          @db.VarChar(100)
+  image             String          @db.VarChar(100)
+  category          String          @db.VarChar(100)
+  amountOfSugar     Int             @map("amount_of_sugar")
+
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+
+  scannedProducts Scannedproduct[]
+  products Recommendation[] @relation("product")
+  altProduct Recommendation[] @relation("altProduct")
+
+  @@map("products")
+}
+
+model Scannedproduct {
+  id          Int       @id @default(autoincrement())
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int       @map("user_id")
+  product     Product   @relation(fields: [productId], references: [id])
+  productId   Int       @map("product_id")
+
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+
+  @@map("scanned_products")
+}
+
+model Recommendation {
+  product           Product   @relation("product", fields: [productId], references: [id])
+  altProduct        Product   @relation("altProduct", fields: [altProductId], references: [id])
+  productId         Int       @map("product_id")
+  altProductId      Int       @map("alt_product_id")
+  sugarDifference   Int       @map("sugar_difference")
+
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+
+  @@id(name: "id", [productId, altProductId])
+  @@map("recommendations")
+}
