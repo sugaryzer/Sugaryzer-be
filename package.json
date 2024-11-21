@@ -4,8 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "nodemon ./src/index.ts",
-    "migrate": "prisma migrate dev"
+ 
   },
   "author": "",
   "license": "ISC",
