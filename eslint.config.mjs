@@ -1,18 +1,11 @@
-import globals from 'globals';
-import pluginJs from '@eslint/js';
-import daStyle from 'eslint-config-dicodingacademy';
+import globals from "globals";
+import pluginJs from "@eslint/js";
+import tseslint from "typescript-eslint";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-  daStyle,
-  { files: ['**/*.js'], languageOptions: { sourceType: 'commonjs' } },
+  { files: ["**/*.{js,mjs,cjs,ts}"] },
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
-  {
-    rules: {
-      'linebreak-style': 'off',
-      'no-undef': 'off',
-      'camelcase': 'off',
-    }
-  }
+  ...tseslint.configs.recommended,
 ];
