@@ -4,8 +4,7 @@ import { UserValidation } from "../validation/user-validation";
 import { ResponseError } from "../error/response-error";
 import bcrypt from "bcrypt"
 import { UserRepository } from "../repository/user-repository";
-import { prisma } from "../lib/db";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 export class UserService {
 
