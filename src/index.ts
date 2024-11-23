@@ -3,16 +3,17 @@ import cors from './middleware/cors';
 import dotenv from 'dotenv';
 import { errorMiddleware } from './middleware/error-middleware';
 import { apiRouter } from './route/api';
+import { publicRouter } from './route/public-route';
 
 dotenv.config();
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
-app.use(errorMiddleware);
 
 app.use(apiRouter)
+app.use(publicRouter);
+app.use(errorMiddleware)
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
