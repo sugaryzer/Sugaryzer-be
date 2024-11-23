@@ -1,5 +1,5 @@
 import { prisma } from "../lib/db";
-import { RegisterUserRequest } from "../model/user-model";
+import { LoginUserRequest, RegisterUserRequest } from "../model/user-model";
 
 export class UserRepository {
 
@@ -13,6 +13,14 @@ export class UserRepository {
     static async createUser(data: RegisterUserRequest){
         return await prisma.user.create({
             data
+        })
+    }
+
+    static async findEmailById(data: LoginUserRequest){
+        return await prisma.user.findUnique({
+            where: {
+                email: data.email
+            }
         })
     }
 }
