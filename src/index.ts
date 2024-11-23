@@ -11,8 +11,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use(apiRouter)
 app.use(publicRouter);
+app.use(apiRouter)
 app.use(errorMiddleware)
 
 const PORT = process.env.PORT;

@@ -1,7 +1,9 @@
 import express from 'express';
 import { ProductController } from '../controller/product-controller';
+import { authMiddleware } from '../middleware/auth-middleware';
 
 export const apiRouter =  express.Router();
+apiRouter.use(authMiddleware)
 
 //Product API
 apiRouter.post("/api/products", ProductController.create);
