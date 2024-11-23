@@ -12,4 +12,5 @@ export class UserValidation {
         email: z.string().min(1, "Email is required").max(100),
         password: z.string().min(1, "password is required").max(100)
     })
+
 }

@@ -5,6 +5,7 @@ import { ResponseError } from "../error/response-error";
 import bcrypt from "bcrypt"
 import { UserRepository } from "../repository/user-repository";
 import jwt from "jsonwebtoken";
+import { User } from "@prisma/client";
 
 export class UserService {
 
@@ -47,5 +48,9 @@ export class UserService {
         const response = transformUserResponse(user)
         response.access_token = accessToken
         return response
+    }
+
+    static async get(user: User): Promise<UserResponse> {
+        return transformUserResponse(user)
     }
 }
