@@ -19,23 +19,26 @@ export class ProductController {
 
     static async get(req: Request, res: Response, next: NextFunction) {
         try {
-            const { id, code, name } = req.query;
-    
-           // if (!id && !code && !name) {
-           //     // No query parameters provided: return all products
-           //     const products = await ProductService.getAll();
-           //     return res.status(200).json({ data: products });
-           // }
-    
-            // Handle query parameter logic
-            const product = await ProductService.get(
-                id ? Number(id) : undefined,
-                code ? String(code) : undefined,
-                name ? String(name) : undefined
-            );
+            const id = Number(req.params.productId);
+            if (!id) throw new ResponseError(400, `${req.params}`)
+            const product = await ProductService.get(Number(id));
     
             if (!product) {
                 throw new ResponseError(404, "Product not found.");
+            }
+    
+            res.status(200).json({ data: product });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async getAll(req: Request, res: Response, next: NextFunction) {
+        try {
+            const product = await ProductService.getAll();
+    
+            if (!product) {
+                throw new ResponseError(404, "No product yet.");
             }
     
             res.status(200).json({ data: product });
@@ -59,8 +62,9 @@ export class ProductController {
 
     static async remove(req: Request, res: Response, next: NextFunction) {
         try {
-            const request : RemoveProductRequest = req.body as RemoveProductRequest;
-            await ProductService.delete(request.id);
+            const id = req.params.productId;
+            if (!id) throw new ResponseError(400, "Invalid parameter")
+            await ProductService.delete(Number(id));
             res.status(200).json({
                 data: "Product Deleted"
         });
