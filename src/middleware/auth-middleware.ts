@@ -4,9 +4,11 @@ import jwt from 'jsonwebtoken'
 import { User } from "@prisma/client";
 
 export const authMiddleware = async (req: UserRequest, res: Response, next: NextFunction) => {
-    const {authorization: accessToken} = req.headers
-
-    if (accessToken){
+    const {authorization} = req.headers
+    
+    if (authorization){
+        const token = authorization.split(" ")
+        const accessToken = token[token.length - 1]
         const secret = process.env.ACCESS_TOKEN_SECRET!
         const decodedAccessToken = jwt.verify(accessToken, secret)
         
