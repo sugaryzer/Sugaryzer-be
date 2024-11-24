@@ -1,5 +1,6 @@
+import { User } from "@prisma/client";
 import { prismaClient } from "../lib/db";
-import { LoginUserRequest, RegisterUserRequest } from "../model/user-model";
+import { LoginUserRequest, RegisterUserRequest, UpdateUserRequest } from "../model/user-model";
 
 export class UserRepository {
 
@@ -20,6 +21,19 @@ export class UserRepository {
         return await prismaClient.user.findUnique({
             where: {
                 email: data.email
+            }
+        })
+    }
+
+    static async updateCurrentUser(user: User, data: UpdateUserRequest){
+        return await prismaClient.user.update({
+            where: {
+                email: user.email
+            },
+            data: {
+                name: data.name,
+                password: data.password,
+                image: data.image
             }
         })
     }

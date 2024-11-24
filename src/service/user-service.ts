@@ -1,4 +1,4 @@
-import { UserResponse, RegisterUserRequest, transformUserResponse, LoginUserRequest } from "../model/user-model";
+import { UserResponse, RegisterUserRequest, transformUserResponse, LoginUserRequest, UpdateUserRequest } from "../model/user-model";
 import { Validation } from "../validation/validation";
 import { UserValidation } from "../validation/user-validation";
 import { ResponseError } from "../error/response-error";
@@ -52,5 +52,26 @@ export class UserService {
 
     static async get(user: User): Promise<UserResponse> {
         return transformUserResponse(user)
+    }
+
+    static async update(user: User, request: UpdateUserRequest): Promise<UserResponse> {
+        const updateRequest = Validation.validate(UserValidation.UPDATE, request)
+
+        if (updateRequest.name){
+            user.name = updateRequest.name
+        }
+
+        if (updateRequest.password){
+            updateRequest.password = await bcrypt.hash(updateRequest.password, 10)
+        }
+        
+        if (updateRequest.image){
+            user.image = updateRequest.image
+        }
+
+        const result = await UserRepository.updateCurrentUser(user, updateRequest)
+
+        return transformUserResponse(result)
+
     }
 }

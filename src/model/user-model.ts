@@ -18,6 +18,12 @@ export type LoginUserRequest = {
     password: string;
 }
 
+export type UpdateUserRequest = {
+    name?: string;
+    image?: string;
+    password?: string;
+}
+
 export function transformUserResponse(user: User): UserResponse{
     return {
         name: user.name,
