@@ -6,7 +6,7 @@ import { RecommendationController } from '../controller/recommendations-controll
 import { ScannedProductController } from '../controller/scanned-product-controller';
 
 export const apiRouter =  express.Router();
-//apiRouter.use(authMiddleware)
+apiRouter.use(authMiddleware)
 
 apiRouter.get("/api/users/current", UserController.get)
 apiRouter.patch("/api/users/current", UserController.update)
