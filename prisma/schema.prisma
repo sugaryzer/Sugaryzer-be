@@ -72,3 +72,13 @@ model Recommendation {
   @@id(name: "id", [productId, altProductId])
   @@map("recommendations")
 }
+
+model Article {
+  id            Int       @id @default(autoincrement())
+  title         String    @db.VarChar(255)
+  description   String    @db.Text
+  image         String    @db.VarChar(255)
+  source        String    @db.VarChar(255)
+
+  @@map("articles")
+}
