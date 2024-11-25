@@ -3,7 +3,6 @@ import { ProductValidation } from "../validation/product-validation";
 import { Validation } from "../validation/validation";
 import { ProductRepository } from "../repository/product-repository";
 import { ResponseError } from "../error/response-error";
-import { prismaClient } from "../lib/db";
 
 export class ProductService {
     
@@ -18,24 +17,14 @@ export class ProductService {
         }
 
         //insert product to db
-        const product = await ProductRepository.insertProduct(validatedRequest);
+        const product = await ProductRepository.createProduct(validatedRequest);
 
         //return formatted response
         return toProductResponse(product);
     }
 
-    static async get( id?: number, name?: string, code?: string ): Promise<ProductResponse> {
-        let product;
-
-        if (id){
-            product = await ProductRepository.findProductById(id);
-        }
-        else if (code){
-            product = await ProductRepository.findProductByCode(code);
-        }
-        else if (name){
-            product = await ProductRepository.findProductByName(name);
-        }
+    static async get( id: number ): Promise<ProductResponse> {
+        const product = await ProductRepository.findProductById(id);
 
         if (!product) {
             throw new ResponseError(404, 'Product not found.');
@@ -44,10 +33,10 @@ export class ProductService {
         return toProductResponse(product);
     }
 
-    //static async getAll(): Promise<ProductResponse>{
-    //    const products = await ProductRepository.findProducts();
-    //    return toProductResponse(products);
-    //}
+    static async getAll(): Promise<Array<ProductResponse>>{
+        const products = await ProductRepository.findProducts();
+        return products.map((prod) => toProductResponse(prod));
+    }
 
     static async update(request: UpdateProductRequest) : Promise<ProductResponse> {
         const validatedRequest = Validation.validate(ProductValidation.UPDATE, request)

@@ -40,7 +40,7 @@ model Product {
   updatedAt         DateTime        @updatedAt @map("updated_at")
 
   scannedProducts Scannedproduct[]
-  products Recommendation[] @relation("product")
+  products Recommendation[] @relation("product") 
   altProduct Recommendation[] @relation("altProduct")
 
   @@map("products")
@@ -49,8 +49,8 @@ model Product {
 model Scannedproduct {
   id          Int       @id @default(autoincrement())
   user        User      @relation(fields: [userId], references: [id])
-  userId      String       @map("user_id")
-  product     Product   @relation(fields: [productId], references: [id])
+  userId      String    @map("user_id")
+  product     Product   @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   productId   Int       @map("product_id")
 
   createdAt         DateTime        @default(now()) @map("created_at")
@@ -60,8 +60,8 @@ model Scannedproduct {
 }
 
 model Recommendation {
-  product           Product   @relation("product", fields: [productId], references: [id])
-  altProduct        Product   @relation("altProduct", fields: [altProductId], references: [id])
+  product           Product   @relation("product", fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  altProduct        Product   @relation("altProduct", fields: [altProductId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   productId         Int       @map("product_id")
   altProductId      Int       @map("alt_product_id")
   sugarDifference   Int       @map("sugar_difference")
