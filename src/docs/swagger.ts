@@ -2,7 +2,7 @@ import swaggerJsDoc from "swagger-jsdoc"
 
 const options = {
     definition: {
-        openapi: "3.0.0",
+        openapi: "3.0.1",
         info: {
             title: "Sugaryze API",
             version: "1.0.0",
@@ -14,6 +14,16 @@ const options = {
                 description: "Development server",
             },
         ],
+        components: {
+            securitySchemes: {
+              bearerAuth: {
+                type: 'http',
+                scheme: 'bearer',
+                bearerFormat: 'JWT',
+                description: 'Enter the token with the `Bearer: ` prefix, e.g. "Bearer access_token". '
+              }
+            }
+          },
     },
     apis: [
         `${__dirname}/*.js`,

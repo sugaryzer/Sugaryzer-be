@@ -13,11 +13,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 app.use(publicRouter);
 app.use(apiRouter);
 app.use(errorMiddleware);
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
