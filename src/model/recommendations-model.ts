@@ -1,7 +1,8 @@
 import { Product } from "@prisma/client";
+import { ProductResponse, toProductResponse } from "./product-model";
 
 export type RecommendationResponse = {
-    altProduct:        Product;
+    altProduct:        ProductResponse;
     productId:         number;
     altProductId:      number;
     sugarDifference:   number;
@@ -13,9 +14,16 @@ export type CreateRecommendationRequest = {
     sugarDifference:   number;
 }
 
-export function toRecommendationResponse(recommendation: RecommendationResponse) : RecommendationResponse{
+type Recommendation = {
+    altProduct:        Product;
+    productId:         number;
+    altProductId:      number;
+    sugarDifference:   number;
+}
+
+export function toRecommendationResponse(recommendation: Recommendation) : RecommendationResponse{
     return {
-        altProduct: recommendation.altProduct,
+        altProduct: toProductResponse(recommendation.altProduct),
         productId: recommendation.productId,
         altProductId: recommendation.altProductId,
         sugarDifference: recommendation.sugarDifference,

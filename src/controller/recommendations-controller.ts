@@ -11,7 +11,7 @@ export class RecommendationController {
 
         const recommendation = await RecommendationService.get(id);
 
-        if (!recommendation) {
+        if (recommendation.length === 0) {
             throw new ResponseError(404, "No recommendations.");
         }
 
@@ -24,7 +24,12 @@ export class RecommendationController {
   static async create ( req: Request, res: Response, next: NextFunction ) {
     try {
         let request: CreateRecommendationRequest = req.body as CreateRecommendationRequest;
-        request.productId = Number(req.params.productId);
+        if (!request.productId){
+          request.productId = Number(req.params.productId);
+        } 
+        //else if (request.productId !== Number(req.params.productId)){
+        //    throw new ResponseError (400, `url params does not match the requested productId`)
+        //};
         const response = await RecommendationService.create(request);
         res.status(200).json({
             data: response

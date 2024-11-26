@@ -19,11 +19,11 @@ export class RecommendationService {
     static async create ( request: CreateRecommendationRequest ): Promise<RecommendationResponse> {
         //validate request
         const validatedRequest = Validation.validate(RecommendationValidation.CREATE, request)
-
+                
         //find existing recommendation by code
         const existingRecommendation = await RecommendationRepository.findRecommendationByAltId(validatedRequest.altProductId, validatedRequest.productId);
         if(existingRecommendation) {
-            throw new ResponseError(400, `Recommendation ${validatedRequest.altProductId} for ${validatedRequest.productId} already exists`)
+            throw new ResponseError(400, `Recommendation with productId ${validatedRequest.altProductId} for productId ${validatedRequest.productId} already exists`)
         }
 
         //insert recommendation to db

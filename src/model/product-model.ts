@@ -29,7 +29,7 @@ export type RemoveProductRequest = {
     id:number;
 }
 
-export function toProductResponse(product: Product): ProductResponse {
+export function toProductResponse(product: ProductResponse): ProductResponse {
     return{
         id: product.id,
         code: product.code,

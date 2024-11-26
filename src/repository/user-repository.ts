@@ -37,4 +37,12 @@ export class UserRepository {
             }
         })
     }
+
+    static async findUserById(id: string){
+        return await prismaClient.user.findUnique({
+            where: {
+                id
+            }
+        })
+    }
 }

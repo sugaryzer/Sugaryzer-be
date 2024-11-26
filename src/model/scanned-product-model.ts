@@ -1,9 +1,10 @@
 import { Product } from "@prisma/client"
+import { ProductResponse, toProductResponse } from "./product-model"
 
 export type ScannedProductResponse = {
     id:          number,
     userId:      string,
-    product:     Product,
+    product:     ProductResponse,
     productId:   number,
     createdAt:   Date,
 }
@@ -16,11 +17,19 @@ export type RemoveScannedProductRequest = {
     id: number,
 }
 
-export function toScannedProductResponse(scannedproduct: ScannedProductResponse) : ScannedProductResponse{
+export type ScannedProduct = {
+    id:          number,
+    userId:      string,
+    product:     Product,
+    productId:   number,
+    createdAt:   Date,
+}
+
+export function toScannedProductResponse(scannedproduct: ScannedProduct) : ScannedProductResponse{
     return {
         id:          scannedproduct.id,
         userId:      scannedproduct.userId,
-        product:     scannedproduct.product,
+        product:     toProductResponse(scannedproduct.product),
         productId:   scannedproduct.productId,
         createdAt:   scannedproduct.createdAt
     }

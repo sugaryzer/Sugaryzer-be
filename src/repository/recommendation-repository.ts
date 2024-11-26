@@ -51,15 +51,15 @@ export class RecommendationRepository {
             throw new Error(`Alternative product with ID ${request.altProductId} not found.`);
         }
 
-        // Validate amountOfSugar
-        if (product.amountOfSugar == null || altProduct.amountOfSugar == null) {
-            throw new Error("One or both products have a null 'amountOfSugar' value.");
+        if (!request.sugarDifference){
+            request.sugarDifference =  altProduct.amountOfSugar - product.amountOfSugar;
         }
+
         return prismaClient.recommendation.create({
             data: {
                 productId: request.productId,
                 altProductId: request.altProductId,
-                sugarDifference: request.sugarDifference | altProduct.amountOfSugar - product.amountOfSugar,
+                sugarDifference: request.sugarDifference,
             },
             include: {
                 altProduct: true,
