@@ -10,7 +10,7 @@ export class ArticleService {
         return articles.map((article) => transformArticleResponse(article))
     }
 
-    static async get(articleId: number){
+    static async get(articleId: number): Promise<ArticleResponse>{
         const article = await ArticleRepository.findArticleById(articleId)
 
         if(!article){

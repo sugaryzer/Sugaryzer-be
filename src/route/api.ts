@@ -5,12 +5,16 @@ import { UserController } from '../controller/user-controller';
 import { RecommendationController } from '../controller/recommendations-controller';
 import { ScannedProductController } from '../controller/scanned-product-controller';
 import { ArticleController } from '../controller/article-contoller';
+import { UserProfileController } from '../controller/user-profile-controller';
 
 export const apiRouter =  express.Router();
 apiRouter.use(authMiddleware)
 
 apiRouter.get("/api/users/current", UserController.get)
 apiRouter.patch("/api/users/current", UserController.update)
+
+apiRouter.get("/api/users/current/user-profile", UserProfileController.get)
+apiRouter.patch("/api/users/current/user-profile", UserProfileController.update)
 
 apiRouter.get("/api/articles", ArticleController.getAll)
 apiRouter.get("/api/articles/:articleId(\\d+)", ArticleController.get)
