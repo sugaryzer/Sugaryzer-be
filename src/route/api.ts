@@ -4,7 +4,7 @@ import { authMiddleware } from '../middleware/auth-middleware';
 import { UserController } from '../controller/user-controller';
 import { RecommendationController } from '../controller/recommendations-controller';
 import { ScannedProductController } from '../controller/scanned-product-controller';
-import { ArticleController } from '../controller/article-contoller';
+import { ArticleController } from '../controller/article-controller';
 import { UserProfileController } from '../controller/user-profile-controller';
 
 export const apiRouter =  express.Router();
