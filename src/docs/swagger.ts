@@ -20,7 +20,7 @@ const options = {
                 type: 'http',
                 scheme: 'bearer',
                 bearerFormat: 'JWT',
-                description: 'Enter the token with the `Bearer: ` prefix, e.g. "Bearer access_token". '
+                description: 'Enter the access token'
               }
             }
           },
