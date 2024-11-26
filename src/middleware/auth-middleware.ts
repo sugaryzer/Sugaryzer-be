@@ -1,6 +1,6 @@
 import { Response, NextFunction } from "express";
 import { UserRequest } from "../type/user-request";
-import jwt from 'jsonwebtoken'
+import jwt, { JsonWebTokenError } from 'jsonwebtoken'
 import { User } from "@prisma/client";
 
 export const authMiddleware = async (req: UserRequest, res: Response, next: NextFunction) => {
@@ -10,17 +10,23 @@ export const authMiddleware = async (req: UserRequest, res: Response, next: Next
         const token = authorization.split(" ")
         const accessToken = token[token.length - 1]
         const secret = process.env.ACCESS_TOKEN_SECRET!
-        const decodedAccessToken = jwt.verify(accessToken, secret)
-        
-        if(typeof decodedAccessToken !== 'string'){
-            req.user = decodedAccessToken as User
-            next()
-            return
-        }
+        try {
+            const decodedAccessToken = jwt.verify(accessToken, secret)
+            if(typeof decodedAccessToken !== 'string'){
+                req.user = decodedAccessToken as User
+                next()
+                return
+            }
+        } catch(error){
+            if(error instanceof JsonWebTokenError)
+                res.status(400).json({
+                    errors: error.message
+                }).end()
+                return
+            }
     }
 
     res.status(401).json({
-        errors: "Unauthorized"
+        errors: "unauthorized"
     }).end()
-
 }
