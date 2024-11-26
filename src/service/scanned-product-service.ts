@@ -1,4 +1,4 @@
-import { CreateScannedProductRequest, ScannedProductResponse, toScannedProductResponse } from "../model/scanned-product-model";
+import { CreateScannedProductRequest, ScannedProduct, ScannedProductResponse, toScannedProductResponse } from "../model/scanned-product-model";
 import { ScannedProductValidation } from "../validation/scanned-product-validation";
 import { Validation } from "../validation/validation";
 import { ScannedProductRepository } from "../repository/scanned-product-repository";
@@ -37,7 +37,8 @@ export class ScannedProductService {
         const validatedRequest = Validation.validate(ScannedProductValidation.CREATE, request)
 
         //insert scanned product to db
-        let scannedProduct: ScannedProductResponse = await ScannedProductRepository.createScannedProduct(validatedRequest, userId) as any;
+        let scannedProduct: ScannedProduct = await ScannedProductRepository.createScannedProduct(validatedRequest, userId) as any;
+        //include product in response
         const product = await ProductRepository.findProductById(validatedRequest.productId);
         if (product) scannedProduct.product = product;
         //return formatted response
@@ -49,7 +50,7 @@ export class ScannedProductService {
         if (product){
             await  ScannedProductRepository.deleteById(id)
         }else{
-            throw new ResponseError(404, 'Product does not exist.');
+            throw new ResponseError(404, 'Scanned product does not exist.');
         };
         
     }

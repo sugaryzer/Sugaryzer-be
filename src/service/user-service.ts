@@ -66,4 +66,10 @@ export class UserService {
         return transformUserResponse(result)
 
     }
+
+    static async getByUserId(id: string): Promise<UserResponse>{
+        const user = await UserRepository.findUserById(id);
+        if (!user) throw new ResponseError(404, "This user does not exist")
+        return transformUserResponse(user);
+    }
 }
