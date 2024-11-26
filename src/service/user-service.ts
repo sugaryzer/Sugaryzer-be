@@ -1,4 +1,4 @@
-import { UserResponse, RegisterUserRequest, transformUserResponse, LoginUserRequest, UpdateUserRequest } from "../model/user-model";
+import { UserResponse, RegisterUserRequest, LoginUserRequest, transformUserResponse, UpdateUserRequest } from "../model/user-model";
 import { Validation } from "../validation/validation";
 import { UserValidation } from "../validation/user-validation";
 import { ResponseError } from "../error/response-error";
@@ -39,7 +39,7 @@ export class UserService {
         }
 
         const payload = {
-            name: user.name,
+            id: user.id,
             email: user.email
         }
         const secret = process.env.ACCESS_TOKEN_SECRET!
@@ -57,16 +57,8 @@ export class UserService {
     static async update(user: User, request: UpdateUserRequest): Promise<UserResponse> {
         const updateRequest = Validation.validate(UserValidation.UPDATE, request)
 
-        if (updateRequest.name){
-            user.name = updateRequest.name
-        }
-
         if (updateRequest.password){
             updateRequest.password = await bcrypt.hash(updateRequest.password, 10)
-        }
-        
-        if (updateRequest.image){
-            user.image = updateRequest.image
         }
 
         const result = await UserRepository.updateCurrentUser(user, updateRequest)

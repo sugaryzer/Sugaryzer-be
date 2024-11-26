@@ -1,16 +1,18 @@
 import { User } from "@prisma/client";
 
 export type UserResponse = {
-    name: string;
-    email: string;
-    image?: string;
+    id: string;
+    email: string
     access_token?: string;
 }
 
 export type RegisterUserRequest = {
-    name: string;
     email: string;
     password: string;
+    name: string;
+    height: number;
+    weight: number;
+    age: number;
 }
 
 export type LoginUserRequest = {
@@ -19,14 +21,12 @@ export type LoginUserRequest = {
 }
 
 export type UpdateUserRequest = {
-    name?: string;
-    image?: string;
     password?: string;
 }
 
 export function transformUserResponse(user: User): UserResponse{
     return {
-        name: user.name,
+        id: user.id,
         email: user.email
     }
 }

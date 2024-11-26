@@ -13,7 +13,21 @@ export class UserRepository {
     }
     static async createUser(data: RegisterUserRequest){
         return await prismaClient.user.create({
-            data
+            data: {
+                email: data.email,
+                password: data.password,
+                userProfile: {  
+                    create: {
+                        name: data.name,
+                        height: data.height,
+                        weight: data.weight,
+                        age: data.age
+                    }
+                }
+            },
+            include: {
+                userProfile: true
+            }
         })
     }
 
@@ -31,9 +45,7 @@ export class UserRepository {
                 email: user.email
             },
             data: {
-                name: data.name,
-                password: data.password,
-                image: data.image
+                password: data.password
             }
         })
     }
