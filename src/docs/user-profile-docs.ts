@@ -117,3 +117,54 @@
  *                              weight: 63
  *                              age: 21
  */
+/**
+ * @swagger
+ * /api/users/current/user-profile/image:
+ * 
+ *  patch:
+ *      security:
+ *      - bearerAuth: []
+ *      summary: Update profile image
+ *      operationId: update-profile-image
+ *      tags: [UserProfiles]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              multipart/form-data:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                              image:
+ *                                  type: string
+ *                                  format: binary
+ *                  example:
+ *                      image: profile-image.jpg
+ * 
+ *      responses:
+ *          200:
+ *              description: Return the user on success
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              error:
+ *                                  type: boolean
+ *                              message:
+ *                                  type: string
+ *                              result:
+ *                                  image:
+ *                                      type: string
+ *                                      format: binary
+ *                                      description: updated image of the current user
+ * 
+ *                      example:
+ *                          error: false
+ *                          message: update profile image successfully
+ *                          result:
+ *                              name: renaldy
+ *                              image: https://storage.googleapis.com/profile-images/1733009661479-cm3ylo2u000003j6ig5daov53.jpg
+ *                              height: 177
+ *                              weight: 63
+ *                              age: 21
+ */
