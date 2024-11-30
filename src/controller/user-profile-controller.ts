@@ -26,4 +26,15 @@ export class UserProfileController {
             next(error)
         }
     }
+
+    static async updateImage(req: UserRequest, res: Response, next: NextFunction){
+        try {
+            const response = await UserProfileService.updateImage(req)
+            res.status(200).json({
+                data: response
+            })
+        } catch(error){
+            next(error)
+        }
+    }
 }

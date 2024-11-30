@@ -1,6 +1,6 @@
 import { User } from "@prisma/client";
 import { prismaClient } from "../lib/db";
-import { UpdateUserProfileRequest } from "../model/user-profile-model";
+import { UpdateUserProfileImageRequest, UpdateUserProfileRequest } from "../model/user-profile-model";
 
 export class UserProfileRepository {
 
@@ -19,10 +19,20 @@ export class UserProfileRepository {
             },
             data : {
                 name: data.name,
-                image: data.image,
                 height: data.height,
                 weight: data.weight,
                 age: data.age
+            }
+        })
+    }
+
+    static async updateUserProfileImage(data: UpdateUserProfileImageRequest){
+        return await prismaClient.userProfile.update({
+            where: {
+                userId: data.userId
+            },
+            data: {
+                image: data.image
             }
         })
     }

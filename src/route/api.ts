@@ -6,6 +6,7 @@ import { RecommendationController } from '../controller/recommendations-controll
 import { ScannedProductController } from '../controller/scanned-product-controller';
 import { ArticleController } from '../controller/article-controller';
 import { UserProfileController } from '../controller/user-profile-controller';
+import { fileMiddleware } from '../middleware/file-middleware';
 
 export const apiRouter =  express.Router();
 apiRouter.use(authMiddleware)
@@ -15,6 +16,7 @@ apiRouter.patch("/api/users/current", UserController.update)
 
 apiRouter.get("/api/users/current/user-profile", UserProfileController.get)
 apiRouter.patch("/api/users/current/user-profile", UserProfileController.update)
+apiRouter.patch("/api/users/current/user-profile/image", fileMiddleware.single('image'), UserProfileController.updateImage)
 
 apiRouter.get("/api/articles", ArticleController.getAll)
 apiRouter.get("/api/articles/:articleId(\\d+)", ArticleController.get)
