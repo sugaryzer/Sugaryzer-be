@@ -6,7 +6,7 @@ export const fileMiddleware = multer({
         const fileTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp']
         
         if (!fileTypes.includes(file.mimetype)){
-            cb(new ResponseError(400, 'Invalid file tpe'))
+            cb(new ResponseError(400, 'Invalid file type'))
         }
         cb(null, true)
     },
