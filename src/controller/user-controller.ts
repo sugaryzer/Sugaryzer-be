@@ -10,7 +10,9 @@ export class UserController {
             const request: RegisterUserRequest = req.body as RegisterUserRequest
             const response = await UserService.register(request)
             res.status(200).json({
-                data: response  
+                error: false,
+                message: "register successfully",
+                result: response  
             })
         } catch (error){
             next(error)
@@ -22,7 +24,9 @@ export class UserController {
             const request: LoginUserRequest = req.body as LoginUserRequest
             const response = await UserService.login(request)
             res.status(200).json({
-                data: response  
+                error: false,
+                message: "login successfully",
+                result: response  
             })
         } catch (error){
             next(error)
@@ -33,7 +37,9 @@ export class UserController {
         try {
             const response = await UserService.get(req.user!)
             res.status(200).json({
-                data: response  
+                error: false,
+                message: "get current user successfully",
+                result: response  
             })
         } catch (error){
             next(error)
@@ -45,7 +51,9 @@ export class UserController {
             const request: UpdateUserRequest = req.body as UpdateUserRequest
             const response = await UserService.update(req.user!, request)
             res.status(200).json({
-                data: response  
+                error: false,
+                message: "update password successfully",
+                result: response  
             })
         } catch (error){
             next(error)

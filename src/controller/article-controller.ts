@@ -27,8 +27,8 @@ export class ArticleController {
             const response = await ArticleService.get(articleId)
             res.status(200).json({
                 error: false,
-                message: "article retrieved successfully",
-                result: response,
+                message: "get an article successfully",
+                result: response
             })
         } catch(error){
             next(error)

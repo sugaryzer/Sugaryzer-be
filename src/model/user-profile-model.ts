@@ -12,10 +12,14 @@ export type UpdateUserProfileRequest = {
     id: number;
     userId: string;
     name?: string;
-    image?: string;
     height?: number;
     weight?: number;
     age?: number;
+}
+
+export type UpdateUserProfileImageRequest = {
+    userId: string;
+    image: string;
 }
 
 export function transformUserProfileResponse(userProfile: UserProfile): UserProfileResponse{

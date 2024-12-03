@@ -24,23 +24,31 @@
  *                          items:
  *                              type: object
  *                              properties:
- *                                  id:
- *                                      type: integer
- *                                      description: id of the article
- *                                  title:
+ *                                  error:
+ *                                      type: boolean
+ *                                  message:
  *                                      type: string
- *                                      description: title of the article
- *                                  description:
- *                                      type: string
- *                                      description: description of the article
- *                                  image:
- *                                      type: string
- *                                      description: image of the article
- *                                  source:
- *                                      type: string
- *                                      description: source of the article
+ *                                  result:
+ *                                      id:
+ *                                          type: integer
+ *                                          description: id of the article
+ *                                      title:
+ *                                          type: string
+ *                                          description: title of the article
+ *                                      description:
+ *                                          type: string
+ *                                          description: description of the article
+ *                                      image:
+ *                                          type: string
+ *                                          description: image of the article
+ *                                      source:
+ *                                          type: string
+ *                                          description: source of the article
+ * 
  *                      example:
- *                          data:
+ *                          error: false
+ *                          message: get all articles successfully
+ *                          result:
  *                          - id: 1
  *                            title: Konsumsi Gula Berlebih, Waspadai Risikonya
  *                            description: Direktur Jenderal Pencegahan dan Pengendalian Penyakit, Kemenkes dr. Maxi Rein Rondonuwu mengatakan konsumsi gula berlebih, baik dari makanan atau minuman berisiko tinggi menyebabkan masalah kesehatan seperti gula darah tinggi, obesitas, dan diabetes melitus
@@ -71,22 +79,30 @@
  *                      schema:
  *                          type: object
  *                          properties:
- *                              id:
- *                                  type: integer
- *                                  description: id of the article
- *                              title:
+ *                              error:
+ *                                  type: boolean
+ *                              messaage:
  *                                  type: string
- *                                  description: title of the article
- *                              description:
- *                                  type: string
- *                                  description: description of the article
- *                              image:
- *                                  type: string
- *                                  description: image of the article
- *                              source:
- *                                  type: string
- *                                  description: source of the article
+ *                              result:
+ *                                  id:
+ *                                      type: integer
+ *                                      description: id of the article
+ *                                  title:
+ *                                      type: string
+ *                                      description: title of the article
+ *                                  description:
+ *                                      type: string
+ *                                      description: description of the article
+ *                                  image:
+ *                                      type: string
+ *                                      description: image of the article
+ *                                  source:
+ *                                      type: string
+ *                                      description: source of the article
+ * 
  *                      example:
+ *                          error: false
+ *                          message: get an article successfully
  *                          data:
  *                              id: 1
  *                              title: Konsumsi Gula Berlebih, Waspadai Risikonya
