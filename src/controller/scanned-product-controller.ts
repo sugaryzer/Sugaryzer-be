@@ -54,13 +54,17 @@ export class ScannedProductController {
               }
             const scannedProductId = Number(req.params.scannedProductId);
 
-            const scannedProduct = await ScannedProductService.get(req.user.id, scannedProductId)
+            const response = await ScannedProductService.get(req.user.id, scannedProductId)
 
-            if (!scannedProduct) {
+            if (!response) {
                 throw new ResponseError(404, "No scanned product found.");
             }
 
-            res.status(200).json({ data: scannedProduct });
+            res.status(200).json({
+                error: false,
+                message: "Scanned product retrieved successfully",
+                result: response,
+            })
         } catch (error) {
             next(error);
         }
@@ -74,7 +78,11 @@ export class ScannedProductController {
             const request: CreateScannedProductRequest = req.body as CreateScannedProductRequest;
             const response = await ScannedProductService.create(request, req.user.id)
             
-            res.status(200).json({ data: response })
+            res.status(200).json({
+                error: false,
+                message: "Scanned product created successfully",
+                result: response,
+            })
         } catch (error) {
             next(error)
         }
@@ -88,8 +96,9 @@ export class ScannedProductController {
             const scannedProductId = Number(req.params.scannedproductid);
             await ScannedProductService.delete(scannedProductId, req.user.id);
             res.status(200).json({
-                data: "Scanned product deleted"
-        });
+                error: false,
+                message: "scanned product deleted successfully",
+            })
         } catch (error) {
             next(error);
         }

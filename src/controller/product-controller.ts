@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, response, Response } from "express";
 import { CreateProductRequest, ProductGetRequest, RemoveProductRequest, UpdateProductRequest } from "../model/product-model";
 import { ProductService } from "../service/product-service";
 import { ResponseError } from "../error/response-error";
@@ -10,7 +10,9 @@ export class ProductController {
             const request: CreateProductRequest = req.body as CreateProductRequest;
             const response = await ProductService.create(request);
             res.status(200).json({
-                data: response,
+                error: false,
+                message: "product created successfully",
+                result: response,
             })
         } catch (error) {
             next(error);
@@ -21,13 +23,17 @@ export class ProductController {
         try {
             const id = Number(req.params.productId);
             if (!id) throw new ResponseError(400, `${req.params}`)
-            const product = await ProductService.get(Number(id));
+            const response = await ProductService.get(Number(id));
     
-            if (!product) {
+            if (!response) {
                 throw new ResponseError(404, "Product not found.");
             }
     
-            res.status(200).json({ data: product });
+            res.status(200).json({
+                error: false,
+                message: "product created successfully",
+                result: response,
+            });
         } catch (error) {
             next(error);
         }
@@ -39,16 +45,16 @@ export class ProductController {
                 page: req.query.page ? Number(req.query.page) : 1,
                 size: req.query.size ? Number(req.query.size) : 10,
             }
-            const product = await ProductService.getAll(request);
+            const response = await ProductService.getAll(request);
     
-            if (!product) {
+            if (!response) {
                 throw new ResponseError(404, "No product yet.");
             }
     
             res.status(200).json({
                 error: false,
                 message: "products retrieved successfully",
-                result: product,
+                result: response,
             })
         } catch (error) {
             next(error);
@@ -61,7 +67,9 @@ export class ProductController {
 
             const response = await ProductService.update(request);
             res.status(200).json({
-                data: response
+                error: false,
+                message: "product updated successfully",
+                result: response,
             });
         } catch (error) {
             next(error);
@@ -74,8 +82,9 @@ export class ProductController {
             if (!id) throw new ResponseError(400, "Invalid parameter")
             await ProductService.delete(Number(id));
             res.status(200).json({
-                data: "Product Deleted"
-        });
+                error: false,
+                message: "product deleted successfully",
+            });
         } catch (error) {
             next(error);
         }

@@ -9,13 +9,17 @@ export class RecommendationController {
     try {
         const id = Number(req.params.productId);
 
-        const recommendation = await RecommendationService.get(id);
+        const response = await RecommendationService.get(id);
 
-        if (recommendation.length === 0) {
+        if (response.length === 0) {
             throw new ResponseError(404, "No recommendations.");
         }
 
-        res.status(200).json({ data: recommendation });
+        res.status(200).json({
+          error: false,
+          message: "reccomendation retrieved successfully",
+          result: response,
+      })
     } catch (error) {
         next(error);
     }
@@ -32,8 +36,10 @@ export class RecommendationController {
         };
         const response = await RecommendationService.create(request);
         res.status(200).json({
-            data: response
-        })
+          error: false,
+          message: "reccomendation created successfully",
+          result: response,
+      })
     } catch (error) {
         next(error);
     }
