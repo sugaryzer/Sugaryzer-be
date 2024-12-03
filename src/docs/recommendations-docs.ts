@@ -85,7 +85,9 @@
  *     description: Id of product to get/add its recommendations
  * 
  *   post:
- *      summary: +recommendation to a product
+ *      security:
+ *      - bearerAuth: []
+ *      summary: +recommendation to a product (sugarDifference is optional as its calculated by default)
  *      operationId: create
  *      tags: [Recommendations]
  *      requestBody:
@@ -108,11 +110,6 @@
  *                          value:
  *                              altProductId: 6
  *                              sugarDifference: -18
- *                      Third:
- *                          value:
- *                              productId: 4
- *                              altProductId: 6
- *                              sugarDifference: -18
  *      responses:
  *                200:
  *                    description: Return the created recommendation
@@ -127,6 +124,8 @@
  *                                            $ref: '#/components/models/RecommendationResponse'
  * 
  *   get:
+ *      security:
+ *      - bearerAuth: []
  *      summary: Return recommendations for a product
  *      operationId: get
  *      tags: [Recommendations]

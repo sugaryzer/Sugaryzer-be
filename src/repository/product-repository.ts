@@ -1,10 +1,14 @@
 import { prismaClient } from "../lib/db";
-import { CreateProductRequest, ProductResponse, UpdateProductRequest } from "../model/product-model";
+import { CreateProductRequest, ProductGetRequest, ProductResponse, UpdateProductRequest } from "../model/product-model";
 
 export class ProductRepository {
 
-    static async findProducts(){
-        return prismaClient.product.findMany();
+    static async findProducts(data: ProductGetRequest){
+        const skip = (data.page - 1) * data.size;
+        return await prismaClient.product.findMany({
+            take: data.size,
+            skip: skip
+        })
     }
 
     static async findProductByName(name: string){
@@ -55,6 +59,10 @@ export class ProductRepository {
                 id
             }
         })
+    }
+
+    static async countProducts(){
+        return await prismaClient.product.count()
     }
     
 }

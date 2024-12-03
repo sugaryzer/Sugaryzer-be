@@ -17,6 +17,11 @@ export type RemoveScannedProductRequest = {
     id: number,
 }
 
+export type ScannedProductGetRequest = {
+    page: number;
+    size: number;
+}
+
 export type ScannedProduct = {
     id:          number,
     userId:      string,

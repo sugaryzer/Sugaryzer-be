@@ -57,6 +57,8 @@
  * /api/products:
  * 
  *   post:
+ *      security:
+ *      - bearerAuth: []
  *      summary: Create a product
  *      operationId: create
  *      tags: [Products]
@@ -93,6 +95,8 @@
  *                                  
  * 
  *   patch:
+ *      security:
+ *      - bearerAuth: []
  *      summary: Update a product
  *      operationId: update
  *      tags: [Products]
@@ -122,6 +126,8 @@
  *                          amountOfSugar: 18
  * 
  *   get:
+ *      security:
+ *      - bearerAuth: []
  *      summary: Returns all products
  *      operationId: getAll
  *      tags: [Products]
@@ -162,6 +168,8 @@
  *     description: Id of product to get
  * 
  *   get:
+ *      security:
+ *      - bearerAuth: []
  *      summary: Returns a product by its id
  *      operationId: get
  *      tags: [Products]
@@ -177,6 +185,8 @@
  *                              $ref: '#/components/examples/tehPucuk'
  * 
  *   delete:
+ *      security:
+ *      - bearerAuth: []
  *      summary: Delete a product by its id
  *      operationId: remove
  *      tags: [Products]

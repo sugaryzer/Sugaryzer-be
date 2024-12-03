@@ -1,11 +1,23 @@
 import { connect } from "http2";
 import { ResponseError } from "../error/response-error";
 import { prismaClient } from "../lib/db";
-import { CreateScannedProductRequest } from "../model/scanned-product-model";
+import { CreateScannedProductRequest, ScannedProductGetRequest } from "../model/scanned-product-model";
 import { ProductRepository } from "./product-repository";
 
 export class ScannedProductRepository {
     
+    static async findScannedProducts(data: ScannedProductGetRequest){
+        const skip = (data.page - 1) * data.size;
+        return await prismaClient.scannedproduct.findMany({
+            include: {
+                product: true,
+            },
+            take: data.size,
+            skip: skip
+        })
+    }
+
+
     static async findAll () {
         return await prismaClient.scannedproduct.findMany({
             include: {
@@ -14,14 +26,17 @@ export class ScannedProductRepository {
         });
     }
 
-    static async findAllByUserId (userId: string) {
+    static async findAllByUserId (data: ScannedProductGetRequest ,userId: string) {
+        const skip = (data.page - 1) * data.size;
         return await prismaClient.scannedproduct.findMany({
             where: {
                 userId: userId
             },
             include: {
                 product: true,
-            }
+            },
+            take: data.size,
+            skip: skip
         })
     }
 
@@ -54,4 +69,7 @@ export class ScannedProductRepository {
     })
    }
 
+   static async countScannedProducts(){
+    return await prismaClient.scannedproduct.count()
+}
 }

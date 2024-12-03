@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { CreateProductRequest, RemoveProductRequest, UpdateProductRequest } from "../model/product-model";
+import { CreateProductRequest, ProductGetRequest, RemoveProductRequest, UpdateProductRequest } from "../model/product-model";
 import { ProductService } from "../service/product-service";
 import { ResponseError } from "../error/response-error";
 
@@ -35,13 +35,21 @@ export class ProductController {
 
     static async getAll(req: Request, res: Response, next: NextFunction) {
         try {
-            const product = await ProductService.getAll();
+            const request: ProductGetRequest = {
+                page: req.query.page ? Number(req.query.page) : 1,
+                size: req.query.size ? Number(req.query.size) : 10,
+            }
+            const product = await ProductService.getAll(request);
     
             if (!product) {
                 throw new ResponseError(404, "No product yet.");
             }
     
-            res.status(200).json({ data: product });
+            res.status(200).json({
+                error: false,
+                message: "products retrieved successfully",
+                result: product,
+            })
         } catch (error) {
             next(error);
         }

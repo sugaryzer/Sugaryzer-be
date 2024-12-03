@@ -8,6 +8,11 @@ export type ArticleResponse = {
     source: string
 }
 
+export type ArticleGetRequest = {
+    page: number;
+    size: number;
+}
+
 export function transformArticleResponse(article: Article): ArticleResponse{
     return {
         id: article.id,

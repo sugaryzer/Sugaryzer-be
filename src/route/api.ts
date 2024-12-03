@@ -21,9 +21,9 @@ apiRouter.get("/api/articles/:articleId(\\d+)", ArticleController.get)
 
 //Product API
 apiRouter.post("/api/products", ProductController.create);
-apiRouter.get("/api/products/:productId(\\d+)", ProductController.get);
 apiRouter.get("/api/products", ProductController.getAll);
 apiRouter.patch("/api/products", ProductController.update);
+apiRouter.get("/api/products/:productId(\\d+)", ProductController.get);
 apiRouter.delete("/api/products/:productId(\\d+)", ProductController.remove);
 
 //Recommendations API
@@ -32,7 +32,7 @@ apiRouter.post("/api/products/:productId(\\d+)/recommendations", RecommendationC
 
 //Scanned Products API
 apiRouter.get("/api/scanned-products", ScannedProductController.getAll);
-apiRouter.get("/api/users/:userId(\\w+)/scanned-products", ScannedProductController.getAllByUserId);
-apiRouter.get("/api/users/:userId(\\w+)/scanned-products/:scannedProductId(\\d+)", ScannedProductController.get);
-apiRouter.post("/api/users/:userId(\\w+)/scanned-products", ScannedProductController.create);
-apiRouter.delete("/api/users/:userId(\\w+)/scanned-products/:scannedproductid(\\d+)", ScannedProductController.remove);
+apiRouter.get("/api/users/current/scanned-products", ScannedProductController.getAllByUserId);
+apiRouter.post("/api/users/current/scanned-products", ScannedProductController.create);
+apiRouter.get("/api/users/current/scanned-products/:scannedProductId(\\d+)", ScannedProductController.get);
+apiRouter.delete("/api/users/current/scanned-products/:scannedproductid(\\d+)", ScannedProductController.remove);

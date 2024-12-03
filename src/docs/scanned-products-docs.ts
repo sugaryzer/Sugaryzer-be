@@ -85,6 +85,8 @@
  * /api/scanned-products:
  * 
  *   get:
+ *      security:
+ *      - bearerAuth: []
  *      summary: Return ALL scanned products
  *      operationId: getAll
  *      tags: [ScannedProducts]
@@ -136,16 +138,11 @@
 
 /**
  * @swagger
- * /api/users/{userId}/scanned-products:
- *   parameters:
- *   - in: path
- *     name: userId
- *     schema:
- *       type: string
- *     required: true
- *     description: Id of user to get their history of scans
+ * /api/users/current/scanned-products:
  *
  *   post:
+ *      security:
+ *      - bearerAuth: []
  *      summary: Create a scanned product history
  *      operationId: getAllByUserId
  *      tags: [ScannedProducts]
@@ -167,7 +164,9 @@
  *                          $ref: '#/components/models/scannedProductResponse'
  * 
  *   get:
- *      summary: Return all scanned products by user id
+ *      security:
+ *      - bearerAuth: []
+ *      summary: Return all scanned products of current user
  *      operationId: getAllByUserId
  *      tags: [ScannedProducts]
  *      responses:
@@ -208,14 +207,8 @@
 
 /**
  * @swagger
- * /api/users/{userId}/scanned-products/{scannedProductId}:
+ * /api/users/current/scanned-products/{scannedProductId}:
  *   parameters:
- *   - in: path
- *     name: userId
- *     schema:
- *       type: string
- *     required: true
- *     description: Id of user to get their history of scans
  *   - in: path
  *     name: scannedProductId
  *     schema:
@@ -224,6 +217,8 @@
  *     description: Id of a scanned product
  * 
  *   get:
+ *      security:
+ *      - bearerAuth: []
  *      summary: Return a specific scanned product
  *      operationId: get
  *      tags: [ScannedProducts]
@@ -240,6 +235,8 @@
  *                                  items:
  *                                      $ref: '#/components/models/scannedProductResponse'
  *   delete:
+ *      security:
+ *      - bearerAuth: []
  *      summary: Delete a specific scanned product
  *      operationId: remove
  *      tags: [ScannedProducts]

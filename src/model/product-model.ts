@@ -29,7 +29,12 @@ export type RemoveProductRequest = {
     id:number;
 }
 
-export function toProductResponse(product: ProductResponse): ProductResponse {
+export type ProductGetRequest = {
+    page: number;
+    size: number;
+}
+
+export function toProductResponse(product: Product): ProductResponse {
     return{
         id: product.id,
         code: product.code,

@@ -27,9 +27,9 @@ export class RecommendationController {
         if (!request.productId){
           request.productId = Number(req.params.productId);
         } 
-        //else if (request.productId !== Number(req.params.productId)){
-        //    throw new ResponseError (400, `url params does not match the requested productId`)
-        //};
+        else if (request.productId !== Number(req.params.productId)){
+            throw new ResponseError (400, `url params does not match the requested productId`)
+        };
         const response = await RecommendationService.create(request);
         res.status(200).json({
             data: response

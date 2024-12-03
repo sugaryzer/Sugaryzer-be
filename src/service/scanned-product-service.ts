@@ -1,25 +1,51 @@
-import { CreateScannedProductRequest, ScannedProduct, ScannedProductResponse, toScannedProductResponse } from "../model/scanned-product-model";
+import { CreateScannedProductRequest, ScannedProduct, ScannedProductGetRequest, ScannedProductResponse, toScannedProductResponse } from "../model/scanned-product-model";
 import { ScannedProductValidation } from "../validation/scanned-product-validation";
 import { Validation } from "../validation/validation";
 import { ScannedProductRepository } from "../repository/scanned-product-repository";
 import { ResponseError } from "../error/response-error";
 import { ProductRepository } from "../repository/product-repository";
+import { Pageable } from "../model/page";
 
 export class ScannedProductService {
     
-    static async getAll(): Promise<Array<ScannedProductResponse>>{
-        const ScannedProducts = await ScannedProductRepository.findAll();
-        return ScannedProducts.map((ScannedProducts) => toScannedProductResponse(ScannedProducts));
+    static async getAll(request: ScannedProductGetRequest): Promise<Pageable<ScannedProductResponse>>{
+        const validated = Validation.validate(ScannedProductValidation.GET, request);     
+         
+        const scannedProducts = await ScannedProductRepository.findScannedProducts(validated);
+        const total = await ScannedProductRepository.countScannedProducts();
+
+        if (!scannedProducts) {
+            throw new ResponseError(404, "No product yet.");
+        }
+
+        return {
+            data: scannedProducts.map((product) => toScannedProductResponse(product)),
+            paging: {
+                size: validated.size,
+                total_page: Math.ceil(total / validated.size),
+                current_page: validated.page,
+            }
+        }
     }
 
-    static async getByUserId( userId: string ): Promise<Array<ScannedProductResponse>> {
-        const ScannedProducts = await ScannedProductRepository.findAllByUserId(userId);
+    static async getByUserId( request: ScannedProductGetRequest, userId: string ): Promise<Pageable<ScannedProductResponse>> {
+        const validated = Validation.validate(ScannedProductValidation.GET, request);
 
-        if (!ScannedProducts) {
+        const scannedProducts = await ScannedProductRepository.findAllByUserId(validated, userId);
+        const total = await ScannedProductRepository.countScannedProducts();
+
+        if (!scannedProducts) {
             throw new ResponseError(404, 'Scanned product not found.');
           }
 
-        return ScannedProducts.map((ScannedProducts) => toScannedProductResponse(ScannedProducts));
+          return {
+            data: scannedProducts.map((product) => toScannedProductResponse(product)),
+            paging: {
+                size: validated.size,
+                total_page: Math.ceil(total / validated.size),
+                current_page: validated.page,
+            }
+        }
     }
 
     static async get ( userId: string, scannedProductId: number ): Promise<ScannedProductResponse>{
