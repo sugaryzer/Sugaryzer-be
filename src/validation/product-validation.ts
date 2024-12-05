@@ -4,7 +4,7 @@ export class ProductValidation {
 
     static readonly CREATE: ZodType = z.object({
         code: z.string()
-            .regex(/^\d{12,13}$/, 'Invalid barcode format. Must be 12 or 13 digits.'),
+            .regex(/^[a-zA-Z0-9 ]*$/, "No special characters are allowed"),
         name: z.string()
             .min(1, 'Product name is required')
             .max(100, 'Product name must be at most 100 characters'),

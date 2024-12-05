@@ -35,6 +35,6 @@ apiRouter.post("/api/products/:productId(\\d+)/recommendations", RecommendationC
 //Scanned Products API
 apiRouter.get("/api/scanned-products", ScannedProductController.getAll);
 apiRouter.get("/api/users/current/scanned-products", ScannedProductController.getAllByUserId);
-apiRouter.post("/api/users/current/scanned-products", ScannedProductController.create);
+apiRouter.post("/api/users/current/scanned-products", fileMiddleware.single('file'), ScannedProductController.create);
 apiRouter.get("/api/users/current/scanned-products/:scannedProductId(\\d+)", ScannedProductController.get);
 apiRouter.delete("/api/users/current/scanned-products/:scannedproductid(\\d+)", ScannedProductController.remove);

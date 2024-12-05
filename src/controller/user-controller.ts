@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { LoginUserRequest, RegisterUserRequest, UpdateUserRequest, UserResponse } from "../model/user-model";
+import { LoginUserRequest, RegisterUserRequest, UpdateUserRequest } from "../model/user-model";
 import { UserService } from "../service/user-service";
 import { UserRequest } from "../type/user-request";
 

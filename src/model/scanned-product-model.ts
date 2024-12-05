@@ -9,10 +9,6 @@ export type ScannedProductResponse = {
     createdAt:   Date,
 }
 
-export type CreateScannedProductRequest = {
-    productId:              number,
-}
-
 export type RemoveScannedProductRequest = {
     id: number,
 }
@@ -28,6 +24,11 @@ export type ScannedProduct = {
     product:     Product,
     productId:   number,
     createdAt:   Date,
+}
+
+export type ImageScanResponse = {
+    easyocr_result: string,
+    tesseract_result: string,
 }
 
 export function toScannedProductResponse(scannedproduct: ScannedProduct) : ScannedProductResponse{

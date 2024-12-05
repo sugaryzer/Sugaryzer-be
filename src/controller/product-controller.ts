@@ -1,5 +1,5 @@
-import { NextFunction, Request, response, Response } from "express";
-import { CreateProductRequest, ProductGetRequest, RemoveProductRequest, UpdateProductRequest } from "../model/product-model";
+import { NextFunction, Request, Response } from "express";
+import { CreateProductRequest, ProductGetRequest, UpdateProductRequest } from "../model/product-model";
 import { ProductService } from "../service/product-service";
 import { ResponseError } from "../error/response-error";
 

@@ -1,10 +1,19 @@
-import { connect } from "http2";
-import { ResponseError } from "../error/response-error";
+import request from "superagent";
 import { prismaClient } from "../lib/db";
-import { CreateScannedProductRequest, ScannedProductGetRequest } from "../model/scanned-product-model";
-import { ProductRepository } from "./product-repository";
+import { ScannedProduct, ScannedProductGetRequest } from "../model/scanned-product-model";
+
 
 export class ScannedProductRepository {
+
+    static async handleImageProcessing(data: Buffer){
+        try {
+            const response = await request.post('http://127.0.0.1:5000/process-image')
+                .attach('file', data, 'file'); // (field?, image in Buffer(value), key)
+                return response.body;
+        } catch (error) {
+            console.error(error);
+        }
+    }
     
     static async findScannedProducts(data: ScannedProductGetRequest){
         const skip = (data.page - 1) * data.size;
@@ -52,12 +61,15 @@ export class ScannedProductRepository {
         })
     }
 
-   static async createScannedProduct(request: CreateScannedProductRequest, userId: string) {
+   static async createScannedProduct(productId: number, userId: string) : Promise<ScannedProduct> {
     return await prismaClient.scannedproduct.create({
         data: {
             userId: userId,
-            productId: request.productId,
+            productId: productId,
         },
+        include: {
+            product: true,
+        }
     });
    }
 

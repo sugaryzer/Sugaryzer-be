@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { ResponseError } from "../error/response-error";
 import { ScannedProductService } from "../service/scanned-product-service";
-import { CreateScannedProductRequest, RemoveScannedProductRequest, ScannedProductGetRequest } from "../model/scanned-product-model";
-import { UserService } from "../service/user-service";
+import { ScannedProductGetRequest } from "../model/scanned-product-model";
 import { UserRequest } from "../type/user-request";
 
 export class ScannedProductController {
@@ -47,7 +46,7 @@ export class ScannedProductController {
         }
     }
 
-    static async get (req: UserRequest, res: Response, next: Function) {
+    static async get (req: UserRequest, res: Response, next: NextFunction) {
         try {
             if (!req.user) {
                 throw new Error('User not authenticated');
@@ -70,17 +69,21 @@ export class ScannedProductController {
         }
     }
 
-    static async create (req: UserRequest, res: Response, next: Function) {
+    static async create (req: UserRequest, res: Response, next: NextFunction) {
         try {
+            if (!req.file) {
+                throw new Error('No file uploaded');
+              }
+
             if (!req.user) {
                 throw new Error('User not authenticated');
               }
-            const request: CreateScannedProductRequest = req.body as CreateScannedProductRequest;
-            const response = await ScannedProductService.create(request, req.user.id)
+            
+            const response = await ScannedProductService.create(req.file.buffer, req.user.id)//multer stores the file in memory as a Buffer, so req.file.buffer holds the image data as a raw binary buffer.
             
             res.status(200).json({
                 error: false,
-                message: "Scanned product created successfully",
+                message: "Product scanned successfully",
                 result: response,
             })
         } catch (error) {
@@ -88,7 +91,7 @@ export class ScannedProductController {
         }
     }
 
-    static async remove (req: UserRequest, res: Response, next: Function) {
+    static async remove (req: UserRequest, res: Response, next: NextFunction) {
         try {
             if (!req.user) {
                 throw new Error('User not authenticated');

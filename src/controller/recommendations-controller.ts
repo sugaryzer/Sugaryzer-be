@@ -27,7 +27,7 @@ export class RecommendationController {
 
   static async create ( req: Request, res: Response, next: NextFunction ) {
     try {
-        let request: CreateRecommendationRequest = req.body as CreateRecommendationRequest;
+        const request: CreateRecommendationRequest = req.body as CreateRecommendationRequest;
         if (!request.productId){
           request.productId = Number(req.params.productId);
         } 

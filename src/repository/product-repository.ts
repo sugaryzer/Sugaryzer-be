@@ -1,5 +1,5 @@
 import { prismaClient } from "../lib/db";
-import { CreateProductRequest, ProductGetRequest, ProductResponse, UpdateProductRequest } from "../model/product-model";
+import { CreateProductRequest, ProductGetRequest, UpdateProductRequest } from "../model/product-model";
 
 export class ProductRepository {
 

@@ -1,4 +1,3 @@
-import { Article } from "@prisma/client";
 import { ArticleGetRequest, ArticleResponse, transformArticleResponse } from "../model/article-model";
 import { ArticleRepository } from "../repository/article-repository";
 import { ResponseError } from "../error/response-error";

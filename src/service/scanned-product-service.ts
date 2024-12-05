@@ -1,4 +1,4 @@
-import { CreateScannedProductRequest, ScannedProduct, ScannedProductGetRequest, ScannedProductResponse, toScannedProductResponse } from "../model/scanned-product-model";
+import { ImageScanResponse, ScannedProduct, ScannedProductGetRequest, ScannedProductResponse, toScannedProductResponse } from "../model/scanned-product-model";
 import { ScannedProductValidation } from "../validation/scanned-product-validation";
 import { Validation } from "../validation/validation";
 import { ScannedProductRepository } from "../repository/scanned-product-repository";
@@ -58,14 +58,29 @@ export class ScannedProductService {
         return toScannedProductResponse(ScannedProducts);
     }
 
-    static async create(request: CreateScannedProductRequest, userId: string) : Promise<ScannedProductResponse> {
-        //validate request
-        const validatedRequest = Validation.validate(ScannedProductValidation.CREATE, request)
+    static async create(req: Buffer, userId: string) : Promise<ScannedProductResponse> {
+        //const validatedRequest = Validation.validate(ScannedProductValidation.CREATE, request)
 
-        //insert scanned product to db
-        let scannedProduct: ScannedProduct = await ScannedProductRepository.createScannedProduct(validatedRequest, userId) as any;
-        //include product in response
-        const product = await ProductRepository.findProductById(validatedRequest.productId);
+        if(!req){
+            throw new ResponseError(400, "File must be provided")
+        }
+
+        const ImageScanResponse : ImageScanResponse = await ScannedProductRepository.handleImageProcessing(req);
+        
+        const rawProductId = ImageScanResponse.easyocr_result.length === 0
+        ? ImageScanResponse.tesseract_result
+        : ImageScanResponse.easyocr_result;
+
+        const productId = rawProductId;
+        const product = await ProductRepository.findProductByCode(productId);
+        if(!product) {
+            throw new ResponseError(400, "Product you are trying to scan does not exist in database or OCR model failed");
+        }
+
+        //insert scanning to db so it can be used as history
+        const scannedProduct: ScannedProduct = await ScannedProductRepository.createScannedProduct(product.id, userId);
+
+        //include scanned product in response
         if (product) scannedProduct.product = product;
         //return formatted response
         return toScannedProductResponse(scannedProduct);

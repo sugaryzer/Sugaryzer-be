@@ -24,6 +24,8 @@ Backend service for Sugaryzer, sugar tracking in drinks application.
 ## Folder Structure
 ```
 .
+├── prisma/
+│   └── schema.prisma
 ├── src/
 │   ├── controllers/
 │   │   ├── article-controller.ts
@@ -80,7 +82,7 @@ Backend service for Sugaryzer, sugar tracking in drinks application.
 - `npm run lint` Run ESLint to check for code quality issues.
 - `npm run lint:fix`
 
-## Respose
+## Response
 ```json
 {
     "error": false,
