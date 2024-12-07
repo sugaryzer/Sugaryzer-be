@@ -63,8 +63,6 @@ export class ProductService {
             await  ProductRepository.deleteProductbyId(id)
         }else{
             throw new ResponseError(404, 'Product does not exist.');
-        };
-        
+        }; 
     }
-
 }

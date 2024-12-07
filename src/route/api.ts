@@ -7,6 +7,7 @@ import { ScannedProductController } from '../controller/scanned-product-controll
 import { ArticleController } from '../controller/article-controller';
 import { UserProfileController } from '../controller/user-profile-controller';
 import { fileMiddleware } from '../middleware/file-middleware';
+import { AnalysisController } from '../controller/analysis-controller';
 
 export const apiRouter =  express.Router();
 apiRouter.use(authMiddleware)
@@ -38,3 +39,9 @@ apiRouter.get("/api/users/current/scanned-products", ScannedProductController.ge
 apiRouter.post("/api/users/current/scanned-products", fileMiddleware.single('file'), ScannedProductController.create);
 apiRouter.get("/api/users/current/scanned-products/:scannedProductId(\\d+)", ScannedProductController.get);
 apiRouter.delete("/api/users/current/scanned-products/:scannedproductid(\\d+)", ScannedProductController.remove);
+
+//Analysis API
+apiRouter.get("/api/users/current/analysis", AnalysisController.get);
+apiRouter.post("/api/users/current/analysis", AnalysisController.create);
+apiRouter.patch("/api/users/current/analysis", AnalysisController.patch);
+apiRouter.delete("/api/users/current/analysis/:date", AnalysisController.remove);

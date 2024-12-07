@@ -38,8 +38,9 @@ model UserProfile {
   createdAt         DateTime        @default(now()) @map("created_at")
   updatedAt         DateTime        @updatedAt @map("updated_at")
 
-  userId  String  @unique @map("user_id")
-  user    User    @relation(fields: [userId], references: [id])
+  userId    String    @unique @map("user_id")
+  user      User      @relation(fields: [userId], references: [id])
+  analysis  Analysis[]  
 
   @@map("user_profile")
 }
@@ -100,4 +101,18 @@ model Article {
   updatedAt         DateTime        @updatedAt @map("updated_at")
 
   @@map("articles")
+}
+
+model Analysis {
+  totalConsume     Int          @db.SmallInt() @map("total_consume")
+  userProfile      UserProfile  @relation(fields: [userId], references: [userId])
+  userId           String       @map("user_id")
+
+  date             DateTime     @default(now()) @map("consumption_date")
+
+  createdAt        DateTime     @default(now()) @map("created_at")
+  updatedAt        DateTime     @updatedAt @map("updated_at")
+
+  @@id(name: "id", [date, userId])
+  @@map("analysis")
 }

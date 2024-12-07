@@ -65,16 +65,16 @@ export class ScannedProductService {
             throw new ResponseError(400, "File must be provided")
         }
 
-        const ImageScanResponse : ImageScanResponse = await ScannedProductRepository.handleImageProcessing(req);
-        
-        const rawProductId = ImageScanResponse.easyocr_result.length === 0
-        ? ImageScanResponse.tesseract_result
-        : ImageScanResponse.easyocr_result;
+        const scanResponse : ImageScanResponse = await ScannedProductRepository.handleImageProcessing(req);
 
-        const productId = rawProductId;
-        const product = await ProductRepository.findProductByCode(productId);
+        if(!scanResponse) {
+            throw new ResponseError(400, "Failed to scan barcode");
+        }
+
+
+        const product = await ProductRepository.findProductByCode(scanResponse.barcode);
         if(!product) {
-            throw new ResponseError(400, "Product you are trying to scan does not exist in database or OCR model failed");
+            throw new ResponseError(400, `Product with barcode ${scanResponse.barcode} you are trying to scan does not exist in database or OCR model failed`, );
         }
 
         //insert scanning to db so it can be used as history

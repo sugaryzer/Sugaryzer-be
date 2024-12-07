@@ -79,7 +79,7 @@ export class ScannedProductController {
                 throw new Error('User not authenticated');
               }
             
-            const response = await ScannedProductService.create(req.file.buffer, req.user.id)//multer stores the file in memory as a Buffer, so req.file.buffer holds the image data as a raw binary buffer.
+            const response = await ScannedProductService.create(req.file.buffer, req.user.id)//multer stores the file in memory as a Buffer, so req.file.buffer is the file uploaded itself in a way.
             
             res.status(200).json({
                 error: false,
@@ -98,7 +98,7 @@ export class ScannedProductController {
               }
             const scannedProductId = Number(req.params.scannedproductid);
             await ScannedProductService.delete(scannedProductId, req.user.id);
-            res.status(200).json({
+            res.status(204).json({
                 error: false,
                 message: "scanned product deleted successfully",
             })

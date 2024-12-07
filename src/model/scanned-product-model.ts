@@ -27,8 +27,7 @@ export type ScannedProduct = {
 }
 
 export type ImageScanResponse = {
-    easyocr_result: string,
-    tesseract_result: string,
+    barcode: string,
 }
 
 export function toScannedProductResponse(scannedproduct: ScannedProduct) : ScannedProductResponse{

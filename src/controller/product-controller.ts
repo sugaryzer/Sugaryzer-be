@@ -81,7 +81,7 @@ export class ProductController {
             const id = req.params.productId;
             if (!id) throw new ResponseError(400, "Invalid parameter")
             await ProductService.delete(Number(id));
-            res.status(200).json({
+            res.status(204).json({
                 error: false,
                 message: "product deleted successfully",
             });

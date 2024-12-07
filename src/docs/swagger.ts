@@ -26,6 +26,8 @@ const options = {
           },
     },
     apis: [
+        `${__dirname}/user-docs.ts`,//rewrite so user api appears on top in swagger
+        `${__dirname}/user-docs.js`,
         `${__dirname}/*.js`,
         `${__dirname}/*.ts`,
     ], // Path to the route files
