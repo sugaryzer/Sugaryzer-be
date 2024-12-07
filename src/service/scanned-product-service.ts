@@ -1,4 +1,4 @@
-import { ImageScanResponse, ScannedProduct, ScannedProductGetRequest, ScannedProductResponse, toScannedProductResponse } from "../model/scanned-product-model";
+import { CreateScannedProductRequest, ScannedProduct, ScannedProductGetRequest, ScannedProductResponse, toScannedProductResponse } from "../model/scanned-product-model";
 import { ScannedProductValidation } from "../validation/scanned-product-validation";
 import { Validation } from "../validation/validation";
 import { ScannedProductRepository } from "../repository/scanned-product-repository";
@@ -58,29 +58,14 @@ export class ScannedProductService {
         return toScannedProductResponse(ScannedProducts);
     }
 
-    static async create(req: Buffer, userId: string) : Promise<ScannedProductResponse> {
-        //const validatedRequest = Validation.validate(ScannedProductValidation.CREATE, request)
+    static async create(request: CreateScannedProductRequest, userId: string) : Promise<ScannedProductResponse> {
+        //validate request
+        const validatedRequest = Validation.validate(ScannedProductValidation.CREATE, request)
 
-        if(!req){
-            throw new ResponseError(400, "File must be provided")
-        }
-
-        const scanResponse : ImageScanResponse = await ScannedProductRepository.handleImageProcessing(req);
-
-        if(!scanResponse) {
-            throw new ResponseError(400, "Failed to scan barcode");
-        }
-
-
-        const product = await ProductRepository.findProductByCode(scanResponse.barcode);
-        if(!product) {
-            throw new ResponseError(400, `Product with barcode ${scanResponse.barcode} you are trying to scan does not exist in database or OCR model failed`, );
-        }
-
-        //insert scanning to db so it can be used as history
-        const scannedProduct: ScannedProduct = await ScannedProductRepository.createScannedProduct(product.id, userId);
-
-        //include scanned product in response
+        //insert scanned product to db
+        let scannedProduct: ScannedProduct = await ScannedProductRepository.createScannedProduct(validatedRequest, userId) as any;
+        //include product in response
+        const product = await ProductRepository.findProductById(validatedRequest.productId);
         if (product) scannedProduct.product = product;
         //return formatted response
         return toScannedProductResponse(scannedProduct);

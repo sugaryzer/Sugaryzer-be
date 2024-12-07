@@ -34,22 +34,37 @@ export class AnalysisService {
     }
 
     static async create(request: AnalysisCreateRequest, userId: string): Promise <AnalysisResponse>{
-        const rawdate = new Date (request.date as unknown as string);
-        const date = rawdate.toISOString();
         if (request.date){
+            const rawdate = new Date (request.date as unknown as string);
+            const date = rawdate.toISOString();
             const check = await AnalysisRepository.findAnalysisByDate(date, userId)
             if(check) throw new ResponseError(400, `Analysis by this date (${date}) already exist`)
+            const analysis = await AnalysisRepository.create(request.totalConsume, userId, date);
+            return transformAnalysisResponse(analysis);
+        } else {
+            const analysis = await AnalysisRepository.create(request.totalConsume, userId);
+            return transformAnalysisResponse(analysis);
         }
-
-        const analysis = await AnalysisRepository.create(request.totalConsume, userId, date);
-        
-        return transformAnalysisResponse(analysis);
     }
 
     static async update(request: AnalysisUpdateRequest, userId: string): Promise <AnalysisResponse>{
-        const analysis = await AnalysisRepository.update(request, userId);
+        const validated = Validation.validate(AnalysisValidation.UPDATE, request);
         
-        return transformAnalysisResponse(analysis);
+        //change to ISOstring
+        const currentDate = validated.currentDate.toISOString();
+        //check if exist first
+        const check = await AnalysisRepository.findAnalysisByDate(currentDate, userId)
+        if(!check) throw new ResponseError(400, `Cannot update as analysis data by this date (${currentDate}) doesn't exist`) 
+            
+        if(validated.newDate){
+            const newDate = validated.newDate.toISOString();
+            const analysis = await AnalysisRepository.update(validated.totalConsume, currentDate, userId, newDate);
+            return transformAnalysisResponse(analysis);
+        } else {
+            const analysis = await AnalysisRepository.update(validated.totalConsume, currentDate, userId);
+            return transformAnalysisResponse(analysis);
+        }    
+        
     }
 
     static async remove(rawdate: string, userId: string){

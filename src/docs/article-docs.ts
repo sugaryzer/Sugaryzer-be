@@ -9,6 +9,17 @@
  * /api/articles/:
  * 
  *  get:
+ *      parameters:
+ *        - in: query
+ *          name: page
+ *          schema:
+ *            type: integer
+ *          description: Which page to show
+ *        - in: query
+ *          name: size
+ *          schema:
+ *            type: integer
+ *          description: The numbers of items to return per page
  *      security:
  *      - bearerAuth: []
  *      summary: Get articles
@@ -49,12 +60,16 @@
  *                          error: false
  *                          message: get all articles successfully
  *                          result:
- *                          - id: 1
- *                            title: Konsumsi Gula Berlebih, Waspadai Risikonya
- *                            description: Direktur Jenderal Pencegahan dan Pengendalian Penyakit, Kemenkes dr. Maxi Rein Rondonuwu mengatakan konsumsi gula berlebih, baik dari makanan atau minuman berisiko tinggi menyebabkan masalah kesehatan seperti gula darah tinggi, obesitas, dan diabetes melitus
- *                            image: http://sehatnegeriku.kemkes.go.id/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-27-at-12.58.03.jpeg
- *                            source: https://kemkes.go.id/id/rilis-kesehatan/konsumsi-gula-berlebih-waspadai-risikonya#:~:text=Direktur%20Jenderal%20Pencegahan%20dan%20Pengendalian%20Penyakit%2C%20Kemenkes%20dr.,seperti%20gula%20darah%20tinggi%2C%20obesitas%2C%20dan%20diabetes%20melitus.
- *
+ *                          data:
+ *                              - id: 1
+ *                                title: Konsumsi Gula Berlebih, Waspadai Risikonya
+ *                                description: Direktur Jenderal Pencegahan dan Pengendalian Penyakit, Kemenkes dr. Maxi Rein Rondonuwu mengatakan konsumsi gula berlebih, baik dari makanan atau minuman berisiko tinggi menyebabkan masalah kesehatan seperti gula darah tinggi, obesitas, dan diabetes melitus
+ *                                image: http://sehatnegeriku.kemkes.go.id/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-27-at-12.58.03.jpeg
+ *                                source: https://kemkes.go.id/id/rilis-kesehatan/konsumsi-gula-berlebih-waspadai-risikonya#:~:text=Direktur%20Jenderal%20Pencegahan%20dan%20Pengendalian%20Penyakit%2C%20Kemenkes%20dr.,seperti%20gula%20darah%20tinggi%2C%20obesitas%2C%20dan%20diabetes%20melitus.
+ *                          paging:
+ *                              size: 10
+ *                              total_page: 1
+ *                              current_page: 1
  */
 /**
  * @swagger
@@ -81,7 +96,7 @@
  *                          properties:
  *                              error:
  *                                  type: boolean
- *                              messaage:
+ *                              message:
  *                                  type: string
  *                              result:
  *                                  id:

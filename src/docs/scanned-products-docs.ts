@@ -28,31 +28,7 @@
  *         updatedAt:
  *           type: date
  *           description: Date updated
- *         
  *  models:
- *      scannedProductResponse:
- *          type: object
- *          properties:
- *            Id:
- *              type: integer
- *              description: scanned product id number
- *              example: 3
- *            userId:
- *              type: string
- *              descripton: id of user
- *              example: abc
- *            product:
- *              type: type
- *              description: the scanned product
- *              $ref: '#/components/models/product'
- *            productId:
- *              type: integer
- *              description: id of product
- *              example: 4
- *            createdAt:
- *              type: date
- *              description: Date created
- *              example: "2024-11-24T18:48:06.379Z"
  *      product:
  *          type: object
  *          properties:
@@ -74,6 +50,7 @@
  *              amountOfSugar:
  *                  type: integer
  *                  example: 18
+ *         
  *
  * @swagger
  *  tags:
@@ -85,6 +62,17 @@
  * /api/scanned-products:
  * 
  *   get:
+ *      parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: Which page to show
+ *       - in: query
+ *         name: size
+ *         schema:
+ *           type: integer
+ *         description: The numbers of items to return per page
  *      security:
  *      - bearerAuth: []
  *      summary: Return ALL scanned products
@@ -96,42 +84,54 @@
  *              content:
  *                  application/json:
  *                      schema:
- *                          $ref: '#/components/models/scannedProductResponse'
+ *                        type: array
+ *                        items:
+ *                            type: object
+ *                            properties:
+ *                                error:
+ *                                    type: boolean
+ *                                message:
+ *                                    type: string
+ *                                result:
+ * 
  *                      example:
- *                          data:
- *                              - id : 3
- *                                userId: user1
- *                                product:
- *                                  id: 4
- *                                  code: "8996001600146"
- *                                  name: Teh Pucuk Melati - mayora - 350 ml 
- *                                  image: https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg
- *                                  category: Tea-based beverages
- *                                  amountOfSugar: 18
- *                                productId: 4
- *                                createdAt: "2024-11-24T18:48:06.379Z"
- *                              - id : 4
- *                                userId: user2
- *                                product:
- *                                  id: 6
- *                                  code: "8886008101053"
- *                                  name: aqua btl - Danone - 600 ml
- *                                  image: https://images.openfoodfacts.org/images/products/888/600/810/1053/front_en.18.400.jpg
- *                                  category: Natural mineral waters
- *                                  amountOfSugar: 0
- *                                productId: 6
- *                                createdAt: "2024-11-24T18:48:06.379Z"
- *                              - id : 5
- *                                userId: user1
- *                                product:
- *                                  id: 4
- *                                  code: "8996001600146"
- *                                  name: Teh Pucuk Melati - mayora - 350 ml 
- *                                  image: https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg
- *                                  category: Tea-based beverages
- *                                  amountOfSugar: 18
- *                                productId: 4
- *                                createdAt: "2024-11-24T18:48:06.379Z"
+ *                          error: false
+ *                          message: Scanned products history retrieved successfully
+ *                          result:
+ *                              - data:
+ *                                  - id : 3
+ *                                    userId: user1
+ *                                    product:
+ *                                      id: 4
+ *                                      code: "8996001600146"
+ *                                      name: Teh Pucuk Melati - mayora - 350 ml 
+ *                                      image: https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg
+ *                                      category: Tea-based beverages
+ *                                      amountOfSugar: 18
+ *                                    productId: 4
+ *                                    createdAt: "2024-11-24T18:48:06.379Z"
+ *                                  - id : 4
+ *                                    userId: user2
+ *                                    product:
+ *                                      id: 6
+ *                                      code: "8886008101053"
+ *                                      name: aqua btl - Danone - 600 ml
+ *                                      image: https://images.openfoodfacts.org/images/products/888/600/810/1053/front_en.18.400.jpg
+ *                                      category: Natural mineral waters
+ *                                      amountOfSugar: 0
+ *                                    productId: 6
+ *                                    createdAt: "2024-11-24T18:48:06.379Z"
+ *                                  - id : 5
+ *                                    userId: user1
+ *                                    product:
+ *                                      id: 4
+ *                                      code: "8996001600146"
+ *                                      name: Teh Pucuk Melati - mayora - 350 ml 
+ *                                      image: https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg
+ *                                      category: Tea-based beverages
+ *                                      amountOfSugar: 18
+ *                                    productId: 4
+ *                                    createdAt: "2024-11-24T18:48:06.379Z"
  *                                  
  * 
  */
@@ -141,32 +141,70 @@
  * /api/users/current/scanned-products:
  *
  *   post:
+ *      summary: Scan a barcode and push it to db as history on success
  *      security:
  *      - bearerAuth: []
- *      summary: Create a scanned product history
  *      operationId: getAllByUserId
  *      tags: [ScannedProducts]
  *      requestBody:
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              productId:
- *                                  type: integer
- *                                  example: 4
+ *          required: true
+ *          content:
+ *            multipart/form-data:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  file:
+ *                    type: string
+ *                    format: binary
  *      responses:
  *          200:
- *              description: Return created history
+ *              description: Return scanned product
  *              content:
  *                  application/json:
  *                      schema:
- *                          $ref: '#/components/models/scannedProductResponse'
+ *                        type: array
+ *                        items:
+ *                            type: object
+ *                            properties:
+ *                                error:
+ *                                    type: boolean
+ *                                message:
+ *                                    type: string
+ *                                result:
  * 
+ *                      example:
+ *                          error: false
+ *                          message: History created successfully
+ *                          result:
+ *                              {
+ *                                  "id": 43,
+ *                                  "userId": "cm4897z3s00001lt4waq19i4q",
+ *                                  "product": {
+ *                                    "id": 12,
+ *                                    "code": "6957303864508",
+ *                                    "name": "Supa Jelly",
+ *                                    "image": "https://images.openfoodfacts.org/images/products/899/600/160/0146/SUPAJELLY.jpg",
+ *                                    "category": "Cincau Xtra",
+ *                                    "amountOfSugar": 5
+ *                                  },
+ *                                  "productId": 12,
+ *                                  "createdAt": "2024-12-07T07:49:45.395Z"
+ *                              }
  *   get:
+ *      parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: Which page to show
+ *       - in: query
+ *         name: size
+ *         schema:
+ *           type: integer
+ *         description: The numbers of items to return per page
  *      security:
  *      - bearerAuth: []
- *      summary: Return all scanned products of current user
+ *      summary: Return all scanned products history of current user
  *      operationId: getAllByUserId
  *      tags: [ScannedProducts]
  *      responses:
@@ -175,9 +213,21 @@
  *              content:
  *                  application/json:
  *                      schema:
- *                          $ref: '#/components/models/scannedProductResponse'
+ *                        type: array
+ *                        items:
+ *                            type: object
+ *                            properties:
+ *                                error:
+ *                                    type: boolean
+ *                                message:
+ *                                    type: string
+ *                                result:
+ * 
  *                      example:
- *                          data:
+ *                          error: false
+ *                          message: Product history retrieved successfully
+ *                          result:
+ *                              data: 
  *                              - id : 3
  *                                userId: user1
  *                                product:
@@ -219,7 +269,7 @@
  *   get:
  *      security:
  *      - bearerAuth: []
- *      summary: Return a specific scanned product
+ *      summary: Return a specific scanned product history
  *      operationId: get
  *      tags: [ScannedProducts]
  *      responses:
@@ -228,12 +278,35 @@
  *              content:
  *                  application/json:
  *                      schema:
- *                          type: object
- *                          properties:
- *                              data:
- *                                  type: array
- *                                  items:
- *                                      $ref: '#/components/models/scannedProductResponse'
+ *                        type: array
+ *                        items:
+ *                            type: object
+ *                            properties:
+ *                                error:
+ *                                    type: boolean
+ *                                message:
+ *                                    type: string
+ *                                result:
+ * 
+ *                      example:
+ *                          {
+ *                            "error": false,
+ *                            "message": "Scanned product history retrieved successfully",
+ *                            "result": {
+ *                              "id": 7,
+ *                              "userId": "cm4897z3s00001lt4waq19i4q",
+ *                              "product": {
+ *                                "id": 4,
+ *                                "code": "8996001600146",
+ *                                "name": "Teh Pucuk Melati - mayora - 350 ml UPDATED",
+ *                                "image": "https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg",
+ *                                "category": "Tea-based beverages",
+ *                                "amountOfSugar": 18
+ *                              },
+ *                              "productId": 4,
+ *                              "createdAt": "2024-12-03T15:34:42.018Z"
+ *                            }
+ *                          } 
  *   delete:
  *      security:
  *      - bearerAuth: []
@@ -251,7 +324,10 @@
  *                              data:
  *                                  type: object
  *                      example:
- *                          data: Scanned product deleted
+ *                          {
+ *                            "error": false,
+ *                            "message": "scanned product history deleted successfully"
+ *                          }
  *                                      
  *                                  
  * 

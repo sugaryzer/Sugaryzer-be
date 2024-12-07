@@ -64,11 +64,12 @@ model Product {
 }
 
 model Scannedproduct {
-  id          Int       @id @default(autoincrement())
-  user        User      @relation(fields: [userId], references: [id])
-  userId      String    @map("user_id")
-  product     Product   @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  productId   Int       @map("product_id")
+  id            Int       @id @default(autoincrement())
+  user          User      @relation(fields: [userId], references: [id])
+  userId        String    @map("user_id")
+  product       Product   @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  productId     Int       @map("product_id")
+  sugarConsume  Int       @map("sugar_consume")
 
   createdAt         DateTime        @default(now()) @map("created_at")
   updatedAt         DateTime        @updatedAt @map("updated_at")

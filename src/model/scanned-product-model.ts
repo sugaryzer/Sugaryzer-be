@@ -6,7 +6,13 @@ export type ScannedProductResponse = {
     userId:      string,
     product:     ProductResponse,
     productId:   number,
+    sugarConsume:number,
     createdAt:   Date,
+}
+
+export type CreateScannedProductRequest = {
+    productId:              number,
+    sugarConsume:           number,
 }
 
 export type RemoveScannedProductRequest = {
@@ -23,11 +29,8 @@ export type ScannedProduct = {
     userId:      string,
     product:     Product,
     productId:   number,
+    sugarConsume:number,
     createdAt:   Date,
-}
-
-export type ImageScanResponse = {
-    barcode: string,
 }
 
 export function toScannedProductResponse(scannedproduct: ScannedProduct) : ScannedProductResponse{
@@ -36,6 +39,7 @@ export function toScannedProductResponse(scannedproduct: ScannedProduct) : Scann
         userId:      scannedproduct.userId,
         product:     toProductResponse(scannedproduct.product),
         productId:   scannedproduct.productId,
+        sugarConsume:scannedproduct.sugarConsume,
         createdAt:   scannedproduct.createdAt
     }
     }

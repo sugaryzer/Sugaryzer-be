@@ -81,12 +81,30 @@ export class ProductController {
             const id = req.params.productId;
             if (!id) throw new ResponseError(400, "Invalid parameter")
             await ProductService.delete(Number(id));
-            res.status(204).json({
+            res.status(200).json({
                 error: false,
                 message: "product deleted successfully",
             });
         } catch (error) {
             next(error);
+        }
+    }
+
+    static async scan (req: Request, res: Response, next: NextFunction) {
+        try {
+            if (!req.file) {
+                throw new Error('No file uploaded');
+              }
+            
+            const response = await ProductService.scan(req.file.buffer)//multer stores the file in memory as a Buffer, so req.file.buffer is the file uploaded itself in a way.
+            
+            res.status(200).json({
+                error: false,
+                message: "Scan success",
+                result: response,
+            })
+        } catch (error) {
+            next(error)
         }
     }
 

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { ResponseError } from "../error/response-error";
 import { ScannedProductService } from "../service/scanned-product-service";
-import { ScannedProductGetRequest } from "../model/scanned-product-model";
+import { CreateScannedProductRequest, ScannedProductGetRequest } from "../model/scanned-product-model";
 import { UserRequest } from "../type/user-request";
 
 export class ScannedProductController {
@@ -15,7 +15,7 @@ export class ScannedProductController {
             const response = await ScannedProductService.getAll(request);
             res.status(200).json({
                 error: false,
-                message: "Scanned products retrieved successfully",
+                message: "Scanned products history retrieved successfully",
                 result: response,
             })
         } catch (error) {
@@ -38,7 +38,7 @@ export class ScannedProductController {
     
             res.status(200).json({
                 error: false,
-                message: "Scanned products retrieved successfully",
+                message: "Scanned products history retrieved successfully",
                 result: response,
             })
         } catch (error) {
@@ -61,7 +61,7 @@ export class ScannedProductController {
 
             res.status(200).json({
                 error: false,
-                message: "Scanned product retrieved successfully",
+                message: "Scanned product history retrieved successfully",
                 result: response,
             })
         } catch (error) {
@@ -71,19 +71,16 @@ export class ScannedProductController {
 
     static async create (req: UserRequest, res: Response, next: NextFunction) {
         try {
-            if (!req.file) {
-                throw new Error('No file uploaded');
-              }
-
             if (!req.user) {
                 throw new Error('User not authenticated');
               }
-            
-            const response = await ScannedProductService.create(req.file.buffer, req.user.id)//multer stores the file in memory as a Buffer, so req.file.buffer is the file uploaded itself in a way.
+        
+            const request: CreateScannedProductRequest = req.body as CreateScannedProductRequest;
+            const response = await ScannedProductService.create(request, req.user.id)
             
             res.status(200).json({
                 error: false,
-                message: "Product scanned successfully",
+                message: "History created successfully",
                 result: response,
             })
         } catch (error) {
@@ -98,9 +95,9 @@ export class ScannedProductController {
               }
             const scannedProductId = Number(req.params.scannedproductid);
             await ScannedProductService.delete(scannedProductId, req.user.id);
-            res.status(204).json({
+            res.status(200).json({
                 error: false,
-                message: "scanned product deleted successfully",
+                message: "scanned product history deleted successfully",
             })
         } catch (error) {
             next(error);

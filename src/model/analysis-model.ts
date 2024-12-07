@@ -13,7 +13,7 @@ export type AnalysisCreateRequest = {
 export type AnalysisUpdateRequest = {
     totalConsume: number;
     currentDate: Date;
-    date?: Date;
+    newDate?: Date;
 }
 
 export type AnalysisGetAllRequest = {

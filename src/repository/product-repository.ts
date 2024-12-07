@@ -1,3 +1,4 @@
+import request from "superagent";
 import { prismaClient } from "../lib/db";
 import { CreateProductRequest, ProductGetRequest, UpdateProductRequest } from "../model/product-model";
 
@@ -63,6 +64,16 @@ export class ProductRepository {
 
     static async countProducts(){
         return await prismaClient.product.count()
+    }
+
+    static async handleImageProcessing(data: Buffer){
+        try {
+            const response = await request.post(`${process.env.OCR_URL}`)
+                .attach('file', data, 'file'); // (field?, image in Buffer(value), key)
+                return response.body;
+        } catch (error) {
+            console.error(error);
+        }
     }
     
 }

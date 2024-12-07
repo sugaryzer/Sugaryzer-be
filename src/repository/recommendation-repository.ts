@@ -1,12 +1,14 @@
 import { prismaClient } from "../lib/db";
-import { CreateRecommendationRequest } from "../model/recommendations-model";
+import { CreateRecommendationRequest, GetRecommendationRequest } from "../model/recommendations-model";
 import { ProductRepository } from "./product-repository";
 
 
 export class RecommendationRepository {
-
-    static async findRecommendationsByProductId(id: number) {
+    static async findRecommendationsByProductId(id: number, data: GetRecommendationRequest) {
+        const skip = (data.page - 1) * data.size;
         return prismaClient.recommendation.findMany({
+            take: data.size,
+            skip: skip,
             where: {
                 productId: id
             },
@@ -65,6 +67,10 @@ export class RecommendationRepository {
                 altProduct: true,
             }
         })
+    }
+
+    static async countReccomendations(){
+        return await prismaClient.recommendation.count()
     }
 
 }

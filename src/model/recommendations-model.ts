@@ -8,6 +8,11 @@ export type RecommendationResponse = {
     sugarDifference:   number;
 }
 
+export type GetRecommendationRequest = {
+    page: number;
+    size: number;
+}
+
 export type CreateRecommendationRequest = {
     productId: number;
     altProductId:      number;

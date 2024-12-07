@@ -30,23 +30,6 @@
  *           type: date
  *           description: Date updated
  *         
- *  examples:
- *      tehPucuk:
- *          value: 
- *              id: 4
- *              code: "8996001600146"
- *              name: tehPucuk Melati - mayora - 350 ml
- *              image: https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg
- *              category: Tea-based beverages
- *              amountOfSugar: 18
- *      aqua:
- *          value:
- *              id: 3
- *              code: "8886008101053"
- *              name: aqua btl - Danone - 600 ml
- *              image: https://images.openfoodfacts.org/images/products/888/600/810/1053/front_en.18.400.jpg
- *              category: Natural mineral waters
- *              amountOfSugar: 0
  * @swagger
  *  tags:
  *    name: Products
@@ -88,12 +71,29 @@
  *              content:
  *                  application/json:
  *                      schema:
- *                          $ref: '#/components/schemas/Product'
- *                      examples:
- *                          tehPucuk:
- *                              $ref: '#/components/examples/tehPucuk'
- *                                  
+ *                          type: array
+ *                          items:
+ *                              type: object
+ *                              properties:
+ *                                  error:
+ *                                      type: boolean
+ *                                  message:
+ *                                      type: string
+ *                                  result:
  * 
+ *                      example:
+ *                          error: false
+ *                          message: product created successfully
+ *                          result:
+ *                              - data:
+ *                                  tehPucuk:
+ *                                      value: 
+ *                                          code: "8996001600146"
+ *                                          name: tehPucuk Melati - mayora - 350 ml
+ *                                          image: https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg
+ *                                          category: Tea-based beverages
+ *                                          amountOfSugar: 18
+ *                                      
  *   patch:
  *      security:
  *      - bearerAuth: []
@@ -117,44 +117,85 @@
  *              content:
  *                  application/json:
  *                      schema:
- *                          $ref: '#/components/schemas/Product'
- *                      example:
- *                          id: 4
- *                          name: tehPucuk Melati - mayora - 350 ml UPDATED
- *                          image: https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg
- *                          category: Tea-based beverages
- *                          amountOfSugar: 18
- * 
- *   get:
- *      security:
- *      - bearerAuth: []
- *      summary: Returns all products
- *      operationId: getAll
- *      tags: [Products]
- *      responses:
- *          200:
- *              description: Return list of products
- *              content:
- *                  application/json:
- *                      schema:
  *                          type: array
  *                          items:
- *                              $ref: '#/components/schemas/Product'
+ *                              type: object
+ *                              properties:
+ *                                  error:
+ *                                      type: boolean
+ *                                  message:
+ *                                      type: string
+ *                                  result:
+ * 
  *                      example:
- *                          - id: 3
- *                            code: "8886008101053"
- *                            name: aqua btl - Danone - 600 ml
- *                            image: https://images.openfoodfacts.org/images/products/888/600/810/1053/front_en.18.400.jpg
- *                            category: Natural mineral waters
- *                            amountOfSugar: 0
- *                          - id: 4
- *                            code: "8996001600146"
- *                            name: tehPucuk Melati - mayora - 350 ml
- *                            image: https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg
- *                            category: Tea-based beverages
- *                            amountOfSugar: 18
+ *                          error: false
+ *                          message: product updated successfully
+ *                          result:
+ *                              - data:
+ *                                  tehPucuk:
+ *                                      value: 
+ *                                          code: "8996001600146"
+ *                                          name: tehPucuk Melati - mayora - 350 ml UPDATED
+ *                                          image: https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg
+ *                                          category: Tea-based beverages
+ *                                          amountOfSugar: 18
  * 
  */
+
+/**
+ * @swagger
+ * /api/products/scan:
+*   post:
+*      security:
+*      - bearerAuth: []
+*      summary: Scan a product and return its information
+*      operationId: scan
+*      tags: [Products]
+*      requestBody:
+*          required: true
+*          content:
+*            multipart/form-data:
+*              schema:
+*                type: object
+*                properties:
+*                  file:
+*                    type: string
+*                    format: binary
+*      responses:
+*          200:
+*              description: Return product information on success
+*              content:
+*                  application/json:
+*                      schema:
+*                        type: array
+*                        items:
+*                            type: object
+*                            properties:
+*                                error:
+*                                    type: boolean
+*                                message:
+*                                    type: string
+*                                result:
+* 
+*                      example:
+*                          error: false
+*                          message: Scan success
+*                          result:
+*                              {
+*                                  "id": 43,
+*                                  "userId": "cm4897z3s00001lt4waq19i4q",
+*                                  "product": {
+*                                    "id": 12,
+*                                    "code": "6957303864508",
+*                                    "name": "Supa Jelly",
+*                                    "image": "https://images.openfoodfacts.org/images/products/899/600/160/0146/SUPAJELLY.jpg",
+*                                    "category": "Cincau Xtra",
+*                                    "amountOfSugar": 5
+*                                  },
+*                                  "productId": 12,
+*                                  "createdAt": "2024-12-07T07:49:45.395Z"
+*                              }
+*/
 
 /**
  * @swagger
@@ -179,10 +220,26 @@
  *              content:
  *                  application/json:
  *                      schema:
- *                          $ref: '#/components/schemas/Product'
- *                      examples:
- *                          tehPucuk:
- *                              $ref: '#/components/examples/tehPucuk'
+ *                          type: array
+ *                          items:
+ *                              type: object
+ *                              properties:
+ *                                  error:
+ *                                      type: boolean
+ *                                  message:
+ *                                      type: string
+ *                                  result:
+ *                      example:
+ *                          error: false
+ *                          message: product retrieved successfully
+ *                          result:
+ *                              - data:
+ *                                  id: 3
+ *                                  code: "8886008101053"
+ *                                  name: aqua btl - Danone - 600 ml
+ *                                  image: https://images.openfoodfacts.org/images/products/888/600/810/1053/front_en.18.400.jpg
+ *                                  category: Natural mineral waters
+ *                                  amountOfSugar: 0
  * 
  *   delete:
  *      security:
@@ -196,12 +253,17 @@
  *              content:
  *                  application/json:
  *                      schema:
- *                          deleteResponse:
+ *                          type: array
+ *                          items:
  *                              type: object
  *                              properties:
- *                                  data:
+ *                                  error:
+ *                                      type: boolean
+ *                                  message:
  *                                      type: string
+ *                                  result:
  *                      example:
- *                          data: Product deleted
+ *                          error: false
+ *                          message: product deleted successfully
  * 
  */

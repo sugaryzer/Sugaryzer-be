@@ -34,6 +34,10 @@ export type ProductGetRequest = {
     size: number;
 }
 
+export type ImageScanResponse = {
+    barcode: string,
+}
+
 export function toProductResponse(product: Product): ProductResponse {
     return{
         id: product.id,

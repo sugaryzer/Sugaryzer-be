@@ -76,7 +76,7 @@ export class AnalysisController {
             
             res.status(200).json({
                 error: false,
-                message: "Analysis created successfully",
+                message: "Analysis data created successfully",
                 result: response,
             })
         } catch (error) {
@@ -86,7 +86,6 @@ export class AnalysisController {
 
     static async patch(req: UserRequest, res: Response, next: NextFunction) {
         try {
-
             if (!req.user){
                 throw new ResponseError (401, "Invalid User")
             }
@@ -111,11 +110,10 @@ export class AnalysisController {
                 throw new ResponseError (401, "Invalid User")
             }
             await AnalysisService.remove(req.params.date, req.user.id);
-            
-            res.status(204).json({
+            res.status(200).json({
                 error: false,
                 message: "Analysis removed successfully",
-            })
+            });
         } catch (error) {
             next(error);
         }

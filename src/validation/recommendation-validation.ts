@@ -8,4 +8,9 @@ export class RecommendationValidation {
         sugarDifference: z.number({invalid_type_error: "Sugar difference must be a number"}).optional(),
     })
 
+    static readonly GET: ZodType = z.object({
+        page: z.number().min(1).positive(),
+        size: z.number().min(1).max(100).positive(),
+    })
+
 }

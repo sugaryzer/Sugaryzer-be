@@ -1,19 +1,29 @@
 import { ResponseError } from "../error/response-error";
-import { CreateRecommendationRequest, RecommendationResponse, toRecommendationResponse } from "../model/recommendations-model";
+import { Pageable } from "../model/page";
+import { CreateRecommendationRequest, GetRecommendationRequest, RecommendationResponse, toRecommendationResponse } from "../model/recommendations-model";
 import { RecommendationRepository } from "../repository/recommendation-repository";
 import { RecommendationValidation } from "../validation/recommendation-validation";
 import { Validation } from "../validation/validation";
 
 export class RecommendationService {
 
-    static async get ( id: number ): Promise<RecommendationResponse[]> {
-        const recommendations = await RecommendationRepository.findRecommendationsByProductId(id);
+    static async get ( id: number, request: GetRecommendationRequest ): Promise<Pageable<RecommendationResponse>> {
+        const validated = Validation.validate(RecommendationValidation.GET, request);  
+        const recommendations = await RecommendationRepository.findRecommendationsByProductId(id, request);
 
         if (!recommendations) {
             throw new ResponseError(404, 'Recommendation not found.');
           }
 
-        return recommendations.map(rec => (toRecommendationResponse(rec)));
+        const total = await RecommendationRepository.countReccomendations();
+        return {
+            data: recommendations.map((rec) => toRecommendationResponse(rec)),
+            paging: {
+                size: validated.size,
+                total_page: Math.ceil(total / validated.size),
+                current_page: validated.page,
+            }
+        }
     }
 
     static async create ( request: CreateRecommendationRequest ): Promise<RecommendationResponse> {

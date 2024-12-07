@@ -43,7 +43,7 @@ export class AnalysisRepository {
         })
     }
 
-    static async create(totalConsume: number, userId: string, date: string){
+    static async create(totalConsume: number, userId: string, date?: string){
         return await prismaClient.analysis.create({
             data: {
                 userId,
@@ -60,17 +60,17 @@ export class AnalysisRepository {
         });
     }
 
-    static async update(request: AnalysisUpdateRequest, userId: string){
+    static async update(totalConsume: number, currentDate: string, userId: string, newDate?: string){
         return await prismaClient.analysis.update({
             where: {
                 id: {
-                    date: request.currentDate,
+                    date: currentDate,
                     userId,
                 }
             },
             data: {
-                totalConsume: request.totalConsume,
-                date: request.date,
+                totalConsume: totalConsume,
+                date: newDate,
             },
             include: {
                 userProfile: {

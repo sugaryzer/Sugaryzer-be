@@ -27,47 +27,6 @@
  *           type: date
  *           description: Date updated
  *
- *  models: 
- *      RecommendationResponse:
- *       type: object
- *       properties:
- *         altProduct:
- *           $ref: '#/components/models/ProductResponse'
- *         productId:
- *           type: integer
- *           example: 4
- *         altProductId:
- *           type: integer
- *           example: 6
- *         sugarDifference:
- *           type: integer
- *           example: -18
- *      
- *      ProductResponse:
- *           type: object
- *           properties:
- *             id:
- *               type: integer
- *               example: 6
- *             code:
- *               type: string
- *               example: "8886008101053"
- *             name:
- *               type: string
- *               example: "aqua btl - Danone - 600 ml"
- *             image:
- *               type: string
- *               format: uri
- *               example: "https://images.openfoodfacts.org/images/products/888/600/810/1053/front_en.18.400.jpg"
- *             category:
- *               type: string
- *               example: "Natural mineral waters"
- *             amountOfSugar:
- *               type: number
- *               example: 0
- *         
- *  examples:
-
  * @swagger
  *  tags:
  *    name: Recommendations
@@ -115,15 +74,48 @@
  *                    description: Return the created recommendation
  *                    content:
  *                        application/json:
- *                            schema:
- *                                type: object
- *                                properties:
- *                                    data:
- *                                        type: array
- *                                        items:
- *                                            $ref: '#/components/models/RecommendationResponse'
+ *                              schema:
+ *                                type: array
+ *                                items:
+ *                                    type: object
+ *                                    properties:
+ *                                        error:
+ *                                            type: boolean
+ *                                        message:
+ *                                            type: string
+ *                                        result:
+ * 
+ *                              example:
+ *                                  error: false
+ *                                  message: product created successfully
+ *                                  result:
+ *                                     - data:
+ *                                          - altProduct:
+ *                                                id: 7
+ *                                                code: "1234567890123"
+ *                                                name: "example product"
+ *                                                image: "https://example.com/image.jpg"
+ *                                                category: "Soft drinks"
+ *                                                amountOfSugar: 10
+ *                                            productId: 4
+ *                                            altProductId: 7
+ *                                            sugarDifference: -8
+ *                                    
+ *                          
+ *                              
  * 
  *   get:
+ *      parameters:
+ *        - in: query
+ *          name: page
+ *          schema:
+ *            type: integer
+ *          description: Which page to show
+ *        - in: query
+ *          name: size
+ *          schema:
+ *            type: integer
+ *          description: The numbers of items to return per page
  *      security:
  *      - bearerAuth: []
  *      summary: Return recommendations for a product
@@ -135,32 +127,45 @@
  *              content:
  *                  application/json:
  *                      schema:
- *                          type: object
- *                          properties:
- *                              data:
- *                                  type: array
+ *                        type: array
+ *                        items:
+ *                            type: object
+ *                            properties:
+ *                                error:
+ *                                    type: boolean
+ *                                message:
+ *                                    type: string
+ *                                result:
+ * 
  *                      example:
- *                        data:
- *                          - altProduct:
- *                              id: 6
- *                              code: "8886008101053"
- *                              name: "aqua btl - Danone - 600 ml"
- *                              image: "https://images.openfoodfacts.org/images/products/888/600/810/1053/front_en.18.400.jpg"
- *                              category: "Natural mineral waters"
- *                              amountOfSugar: 0
- *                            productId: 4
- *                            altProductId: 6
- *                            sugarDifference: -18
- *                          - altProduct:
- *                              id: 7
- *                              code: "1234567890123"
- *                              name: "example product"
- *                              image: "https://example.com/image.jpg"
- *                              category: "Soft drinks"
- *                              amountOfSugar: 10
- *                            productId: 4
- *                            altProductId: 7
- *                            sugarDifference: -8
+ *                          error: false
+ *                          message: products retrieved successfully
+ *                          result:
+ *                              - data:
+ *                                - altProduct:
+ *                                    id: 6
+ *                                    code: "8886008101053"
+ *                                    name: "aqua btl - Danone - 600 ml"
+ *                                    image: "https://images.openfoodfacts.org/images/products/888/600/810/1053/front_en.18.400.jpg"
+ *                                    category: "Natural mineral waters"
+ *                                    amountOfSugar: 0
+ *                                  productId: 4
+ *                                  altProductId: 6
+ *                                  sugarDifference: -18
+ *                                - altProduct:
+ *                                    id: 7
+ *                                    code: "1234567890123"
+ *                                    name: "example product"
+ *                                    image: "https://example.com/image.jpg"
+ *                                    category: "Soft drinks"
+ *                                    amountOfSugar: 10
+ *                                  productId: 4
+ *                                  altProductId: 7
+ *                                  sugarDifference: -8
+ *                                paging:
+ *                                    size: 10
+ *                                    total_page: 1
+ *                                    current_page: 1
  *                                  
  * 
  */

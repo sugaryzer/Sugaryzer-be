@@ -1,4 +1,4 @@
-import { CreateProductRequest, ProductGetRequest, ProductResponse, toProductResponse, UpdateProductRequest } from "../model/product-model";
+import { CreateProductRequest, ImageScanResponse, ProductGetRequest, ProductResponse, toProductResponse, UpdateProductRequest } from "../model/product-model";
 import { ProductValidation } from "../validation/product-validation";
 import { Validation } from "../validation/validation";
 import { ProductRepository } from "../repository/product-repository";
@@ -64,5 +64,24 @@ export class ProductService {
         }else{
             throw new ResponseError(404, 'Product does not exist.');
         }; 
+    }
+
+    static async scan(req: Buffer) : Promise<ProductResponse> {
+        if(!req){
+            throw new ResponseError(400, "File must be provided")
+        }
+
+        const scanResponse : ImageScanResponse = await ProductRepository.handleImageProcessing(req);
+
+        if(!scanResponse) {
+            throw new ResponseError(400, "Failed to scan barcode, can't connect to OCR server or OCR server down");
+        }
+
+        const product = await ProductRepository.findProductByCode(scanResponse.barcode);
+        if(!product) {
+            throw new ResponseError(400, `Product with barcode ${scanResponse.barcode} you are trying to scan does not exist in database or OCR model failed`, );
+        }
+        //return formatted response
+        return toProductResponse(product);
     }
 }

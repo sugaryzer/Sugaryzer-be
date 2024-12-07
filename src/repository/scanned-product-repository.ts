@@ -1,20 +1,8 @@
-import request from "superagent";
 import { prismaClient } from "../lib/db";
-import { ScannedProduct, ScannedProductGetRequest } from "../model/scanned-product-model";
-import { ResponseError } from "../error/response-error";
+import { CreateScannedProductRequest, ScannedProduct, ScannedProductGetRequest } from "../model/scanned-product-model";
 
 
 export class ScannedProductRepository {
-
-    static async handleImageProcessing(data: Buffer){
-        try {
-            const response = await request.post(`${process.env.OCR_URL}`)
-                .attach('file', data, 'file'); // (field?, image in Buffer(value), key)
-                return response.body;
-        } catch (error) {
-            console.error(error);
-        }
-    }
     
     static async findScannedProducts(data: ScannedProductGetRequest){
         const skip = (data.page - 1) * data.size;
@@ -62,17 +50,15 @@ export class ScannedProductRepository {
         })
     }
 
-   static async createScannedProduct(productId: number, userId: string) : Promise<ScannedProduct> {
-    return await prismaClient.scannedproduct.create({
-        data: {
-            userId: userId,
-            productId: productId,
-        },
-        include: {
-            product: true,
-        }
-    });
-   }
+    static async createScannedProduct(request: CreateScannedProductRequest, userId: string) {
+        return await prismaClient.scannedproduct.create({
+            data: {
+                userId: userId,
+                sugarConsume: request.sugarConsume,
+                productId: request.productId,
+            },
+        });
+       }
 
    static async deleteById(id: number) {
     await prismaClient.scannedproduct.delete({
