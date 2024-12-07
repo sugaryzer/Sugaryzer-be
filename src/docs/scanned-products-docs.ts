@@ -95,43 +95,34 @@
  *                                result:
  * 
  *                      example:
- *                          error: false
- *                          message: Scanned products history retrieved successfully
- *                          result:
- *                              - data:
- *                                  - id : 3
- *                                    userId: user1
- *                                    product:
- *                                      id: 4
- *                                      code: "8996001600146"
- *                                      name: Teh Pucuk Melati - mayora - 350 ml 
- *                                      image: https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg
- *                                      category: Tea-based beverages
- *                                      amountOfSugar: 18
- *                                    productId: 4
- *                                    createdAt: "2024-11-24T18:48:06.379Z"
- *                                  - id : 4
- *                                    userId: user2
- *                                    product:
- *                                      id: 6
- *                                      code: "8886008101053"
- *                                      name: aqua btl - Danone - 600 ml
- *                                      image: https://images.openfoodfacts.org/images/products/888/600/810/1053/front_en.18.400.jpg
- *                                      category: Natural mineral waters
- *                                      amountOfSugar: 0
- *                                    productId: 6
- *                                    createdAt: "2024-11-24T18:48:06.379Z"
- *                                  - id : 5
- *                                    userId: user1
- *                                    product:
- *                                      id: 4
- *                                      code: "8996001600146"
- *                                      name: Teh Pucuk Melati - mayora - 350 ml 
- *                                      image: https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg
- *                                      category: Tea-based beverages
- *                                      amountOfSugar: 18
- *                                    productId: 4
- *                                    createdAt: "2024-11-24T18:48:06.379Z"
+ *                          {
+ *                            "error": false,
+ *                            "message": "Scanned products history retrieved successfully",
+ *                            "result": {
+ *                              "data": [
+ *                                {
+ *                                  "id": 1,
+ *                                  "userId": "cm4dzb47a0000s9hlq2r7m24z",
+ *                                  "product": {
+ *                                    "id": 1,
+ *                                    "code": "8996001600146",
+ *                                    "name": "tehPucuk Melati - mayora - 350 ml",
+ *                                    "image": "https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg",
+ *                                    "category": "Tea-based beverages",
+ *                                    "amountOfSugar": 18
+ *                                  },
+ *                                  "productId": 1,
+ *                                  "sugarConsume": 0,
+ *                                  "createdAt": "2024-12-07T10:30:07.951Z"
+ *                                }
+ *                              ],
+ *                              "paging": {
+ *                                "size": 10,
+ *                                "total_page": 1,
+ *                                "current_page": 1
+ *                              }
+ *                            }
+ *                          }
  *                                  
  * 
  */
@@ -141,21 +132,26 @@
  * /api/users/current/scanned-products:
  *
  *   post:
- *      summary: Scan a barcode and push it to db as history on success
+ *      summary: Create a history
  *      security:
  *      - bearerAuth: []
  *      operationId: getAllByUserId
  *      tags: [ScannedProducts]
  *      requestBody:
- *          required: true
  *          content:
- *            multipart/form-data:
- *              schema:
- *                type: object
- *                properties:
- *                  file:
- *                    type: string
- *                    format: binary
+ *              application/json:
+ *                  schema:
+ *                      types: object
+ *                      properties:
+ *                          productId:
+ *                              type: integer
+ *                          sugarConsume:
+ *                              type: integer
+ *                  examples:
+ *                      First:
+ *                          value:
+ *                              productId: 0
+ *                              sugarConsume: 10
  *      responses:
  *          200:
  *              description: Return scanned product
@@ -224,32 +220,49 @@
  *                                result:
  * 
  *                      example:
- *                          error: false
- *                          message: Product history retrieved successfully
- *                          result:
- *                              data: 
- *                              - id : 3
- *                                userId: user1
- *                                product:
- *                                  id: 4
- *                                  code: "8996001600146"
- *                                  name: Teh Pucuk Melati - mayora - 350 ml 
- *                                  image: https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg
- *                                  category: Tea-based beverages
- *                                  amountOfSugar: 18
- *                                productId: 4
- *                                createdAt: "2024-11-24T18:48:06.379Z"
- *                              - id : 5
- *                                userId: user1
- *                                product:
- *                                  id: 4
- *                                  code: "8996001600146"
- *                                  name: Teh Pucuk Melati - mayora - 350 ml 
- *                                  image: https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg
- *                                  category: Tea-based beverages
- *                                  amountOfSugar: 18
- *                                productId: 4
- *                                createdAt: "2024-11-24T18:48:06.379Z"
+ *                          {
+ *                            "error": false,
+ *                            "message": "Scanned products history retrieved successfully",
+ *                            "result": {
+ *                              "data": [
+ *                                {
+ *                                  "id": 1,
+ *                                  "userId": "cm4dzb47a0000s9hlq2r7m24z",
+ *                                  "product": {
+ *                                    "id": 1,
+ *                                    "code": "8996001600146",
+ *                                    "name": "tehPucuk Melati - mayora - 350 ml",
+ *                                    "image": "https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg",
+ *                                    "category": "Tea-based beverages",
+ *                                    "amountOfSugar": 18
+ *                                  },
+ *                                  "productId": 1,
+ *                                  "sugarConsume": 0,
+ *                                  "createdAt": "2024-12-07T10:30:07.951Z"
+ *                                },
+ *                                {
+ *                                  "id": 2,
+ *                                  "userId": "cm4dzb47a0000s9hlq2r7m24z",
+ *                                  "product": {
+ *                                    "id": 2,
+ *                                    "code": "8886008101053",
+ *                                    "name": "aqua btl - Danone - 600 ml",
+ *                                    "image": "https://images.openfoodfacts.org/images/products/888/600/810/1053/front_en.18.400.jpg",
+ *                                    "category": "Natural mineral waters",
+ *                                    "amountOfSugar": 0
+ *                                  },
+ *                                  "productId": 2,
+ *                                  "sugarConsume": 0,
+ *                                  "createdAt": "2024-12-07T10:35:39.717Z"
+ *                                }
+ *                              ],
+ *                              "paging": {
+ *                                "size": 10,
+ *                                "total_page": 1,
+ *                                "current_page": 1
+ *                              }
+ *                            }
+ *                          }
  *                                      
  *                                  
  * 
@@ -289,24 +302,25 @@
  *                                result:
  * 
  *                      example:
- *                          {
- *                            "error": false,
- *                            "message": "Scanned product history retrieved successfully",
- *                            "result": {
- *                              "id": 7,
- *                              "userId": "cm4897z3s00001lt4waq19i4q",
- *                              "product": {
- *                                "id": 4,
- *                                "code": "8996001600146",
- *                                "name": "Teh Pucuk Melati - mayora - 350 ml UPDATED",
- *                                "image": "https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg",
- *                                "category": "Tea-based beverages",
- *                                "amountOfSugar": 18
- *                              },
- *                              "productId": 4,
- *                              "createdAt": "2024-12-03T15:34:42.018Z"
- *                            }
- *                          } 
+*                           {
+*                             "error": false,
+*                             "message": "Scanned product history retrieved successfully",
+*                             "result": {
+*                               "id": 1,
+*                               "userId": "cm4dzb47a0000s9hlq2r7m24z",
+*                               "product": {
+*                                 "id": 1,
+*                                 "code": "8996001600146",
+*                                 "name": "tehPucuk Melati - mayora - 350 ml",
+*                                 "image": "https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg",
+*                                 "category": "Tea-based beverages",
+*                                 "amountOfSugar": 18
+*                               },
+*                               "productId": 1,
+*                               "sugarConsume": 0,
+*                               "createdAt": "2024-12-07T10:30:07.951Z"
+*                             }
+*                           }
  *   delete:
  *      security:
  *      - bearerAuth: []
