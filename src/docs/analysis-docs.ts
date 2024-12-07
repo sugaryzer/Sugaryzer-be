@@ -222,7 +222,7 @@
  *            schema:
  *              type: string
  *            required: true
- *            description: Date of analysis that needs to be deleted (example:2024/12/06 or 2024-12-06)
+ *            description: Date of analysis that needs to be deleted (example:2024-12-06)
  *      security:
  *      - bearerAuth: []
  *      summary: Delete an analysis
