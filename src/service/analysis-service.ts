@@ -34,15 +34,18 @@ export class AnalysisService {
     }
 
     static async create(request: AnalysisCreateRequest, userId: string): Promise <AnalysisResponse>{
-        if (request.date){
+        if (request.date){//this if date specified
             const rawdate = new Date (request.date as unknown as string);
             const date = rawdate.toISOString();
             const check = await AnalysisRepository.findAnalysisByDate(date, userId)
             if(check) throw new ResponseError(400, `Analysis by this date (${date}) already exist`)
             const analysis = await AnalysisRepository.create(request.totalConsume, userId, date);
             return transformAnalysisResponse(analysis);
-        } else {
-            const analysis = await AnalysisRepository.create(request.totalConsume, userId);
+        } else {//no specified date, default to today's date
+            const currentDate = new Date();
+            const dateOnly = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());//return YYYY-MM-DD no timestamp
+            const isoDate = dateOnly.toISOString();//convert to ISO, return in YYYY-MM-DD:0000000
+            const analysis = await AnalysisRepository.create(request.totalConsume, userId, isoDate);
             return transformAnalysisResponse(analysis);
         }
     }
