@@ -38,7 +38,7 @@ export class AnalysisService {
             const rawdate = new Date (request.date as unknown as string);
             const date = rawdate.toISOString();
             const check = await AnalysisRepository.findAnalysisByDate(date, userId)
-            if(check) throw new ResponseError(400, `Analysis by this date (${date}) already exist`)
+            if(check) throw new ResponseError(400, `Analysis by this date (${date}) already exist, use patch instead`)
             const analysis = await AnalysisRepository.create(request.totalConsume, userId, date);
             return transformAnalysisResponse(analysis);
         } else {//no specified date, default to today's date

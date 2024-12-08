@@ -40,7 +40,7 @@ export class ScannedProductService {
             throw new ResponseError(404, 'Scanned product not found.');
           }
 
-          return {
+        return {
             data: scannedProducts.map((product) => toScannedProductResponse(product)),
             paging: {
                 size: validated.size,

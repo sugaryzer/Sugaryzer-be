@@ -33,6 +33,11 @@ export class ScannedProductRepository {
             include: {
                 product: true,
             },
+            orderBy: {
+                product: {
+                    createdAt: 'desc',
+                },
+            },
             take: data.size,
             skip: skip
         })

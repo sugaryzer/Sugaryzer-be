@@ -173,18 +173,23 @@
  *                          message: History created successfully
  *                          result:
  *                              {
- *                                  "id": 43,
- *                                  "userId": "cm4897z3s00001lt4waq19i4q",
+ *                                "error": false,
+ *                                "message": "History created successfully",
+ *                                "result": {
+ *                                  "id": 17,
+ *                                  "userId": "cm4dzb47a0000s9hlq2r7m24z",
  *                                  "product": {
- *                                    "id": 12,
- *                                    "code": "6957303864508",
- *                                    "name": "Supa Jelly",
- *                                    "image": "https://images.openfoodfacts.org/images/products/899/600/160/0146/SUPAJELLY.jpg",
- *                                    "category": "Cincau Xtra",
- *                                    "amountOfSugar": 5
+ *                                    "id": 1,
+ *                                    "code": "8996001600146",
+ *                                    "name": "tehPucuk Melati - mayora - 350 ml",
+ *                                    "image": "https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg",
+ *                                    "category": "Tea-based beverages",
+ *                                    "amountOfSugar": 18
  *                                  },
- *                                  "productId": 12,
- *                                  "createdAt": "2024-12-07T07:49:45.395Z"
+ *                                  "productId": 1,
+ *                                  "sugarConsume": 10,
+ *                                  "createdAt": "2024-12-08T13:45:05.278Z"
+ *                                }
  *                              }
  *   get:
  *      parameters:
