@@ -5,6 +5,8 @@ import { ScannedProductRepository } from "../repository/scanned-product-reposito
 import { ResponseError } from "../error/response-error";
 import { ProductRepository } from "../repository/product-repository";
 import { Pageable } from "../model/page";
+import { AnalysisService } from "./analysis-service";
+import { AnalysisRepository } from "../repository/analysis-repository";
 
 export class ScannedProductService {
     
@@ -62,10 +64,28 @@ export class ScannedProductService {
         //validate request
         const validatedRequest = Validation.validate(ScannedProductValidation.CREATE, request)
 
+        const product = await ProductRepository.findProductById(validatedRequest.productId); //check if product exist
+        if (!product){
+            throw new ResponseError (404, "Product does not exist")
+        }
+
         //insert scanned product to db
         let scannedProduct: ScannedProduct = await ScannedProductRepository.createScannedProduct(validatedRequest, userId) as any;
+
+        //update current user analysis
+        const currentDate = new Date();
+        const dateOnly = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());//return YYYY-MM-DD no timestamp
+        const isoDate = dateOnly.toISOString();//convert to ISO, return in YYYY-MM-DD:0000000
+        const sugarConsume = scannedProduct.sugarConsume; //pull sugarConsume data
+        const analysis = await AnalysisRepository.findAnalysisByDate(isoDate, userId) //check if analysis exist to update if not then create new one
+        if(analysis){
+            const totalConsume = analysis.totalConsume + sugarConsume;
+            await AnalysisRepository.update(totalConsume, isoDate, userId)
+        } else {
+            await AnalysisRepository.create(sugarConsume, userId, isoDate)
+        }
+
         //include product in response
-        const product = await ProductRepository.findProductById(validatedRequest.productId);
         if (product) scannedProduct.product = product;
         //return formatted response
         return toScannedProductResponse(scannedProduct);
