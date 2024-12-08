@@ -45,6 +45,8 @@ export class AnalysisService {
             const currentDate = new Date();
             const dateOnly = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());//return YYYY-MM-DD no timestamp
             const isoDate = dateOnly.toISOString();//convert to ISO, return in YYYY-MM-DD:0000000
+            const check = await AnalysisRepository.findAnalysisByDate(isoDate, userId)
+            if(check) throw new ResponseError(400, `Analysis by this date (${isoDate}) already exist, use patch instead`)
             const analysis = await AnalysisRepository.create(request.totalConsume, userId, isoDate);
             return transformAnalysisResponse(analysis);
         }
