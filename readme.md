@@ -83,7 +83,7 @@ Backend service for Sugaryzer, sugar tracking in drinks application.
 4. Make .env file and follow the .env.example
 5. Run the application:
    ```bash
-   python app.py
+   npm run dev
 6. Access the API at http://localhost:PORT.
 
 
