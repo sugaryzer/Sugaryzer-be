@@ -6,10 +6,11 @@ const options = {
     definition: {
         openapi: "3.0.1",
         info: {
-            title: "Sugaryze API",
+            title: "Sugaryzer API",
             version: "1.0.0",
-            description: "API documentation for the Sugaryze app",
+            description: "API documentation for the Sugaryzer app",
         },
+        schemes: ["http", "https"],
         servers: [
             {
                 url: "http://localhost:3000",
