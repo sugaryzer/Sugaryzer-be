@@ -11,7 +11,7 @@ export type ScannedProductResponse = {
 }
 
 export type CreateScannedProductRequest = {
-    productId:              number,
+    code:                   string,
     sugarConsume:           number,
 }
 

@@ -1,3 +1,4 @@
+import { Product } from "@prisma/client";
 import { prismaClient } from "../lib/db";
 import { CreateScannedProductRequest, ScannedProduct, ScannedProductGetRequest } from "../model/scanned-product-model";
 
@@ -55,12 +56,12 @@ export class ScannedProductRepository {
         })
     }
 
-    static async createScannedProduct(request: CreateScannedProductRequest, userId: string) {
+    static async createScannedProduct(request: CreateScannedProductRequest, productId: number, userId: string) {
         return await prismaClient.scannedproduct.create({
             data: {
                 userId: userId,
                 sugarConsume: request.sugarConsume,
-                productId: request.productId,
+                productId: productId,
             },
         });
        }

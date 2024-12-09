@@ -31,7 +31,7 @@ export class ProductController {
     
             res.status(200).json({
                 error: false,
-                message: "product created successfully",
+                message: "product retrieved successfully",
                 result: response,
             });
         } catch (error) {

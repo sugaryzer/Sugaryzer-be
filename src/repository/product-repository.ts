@@ -19,7 +19,7 @@ export class ProductRepository {
     }
 
     static async findProductByCode(code: string){
-        return prismaClient.product.findFirst({
+        return prismaClient.product.findUnique({
             where: { code },
         });
     }

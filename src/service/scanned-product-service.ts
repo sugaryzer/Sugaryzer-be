@@ -64,13 +64,13 @@ export class ScannedProductService {
         //validate request
         const validatedRequest = Validation.validate(ScannedProductValidation.CREATE, request)
 
-        const product = await ProductRepository.findProductById(validatedRequest.productId); //check if product exist
+        const product = await ProductRepository.findProductByCode(validatedRequest.code); //check if product exist
         if (!product){
             throw new ResponseError (404, "Product does not exist")
         }
 
         //insert scanned product to db
-        let scannedProduct: ScannedProduct = await ScannedProductRepository.createScannedProduct(validatedRequest, userId) as any;
+        let scannedProduct: ScannedProduct = await ScannedProductRepository.createScannedProduct(request, product.id, userId) as any;
 
         //update current user analysis
         const currentDate = new Date();

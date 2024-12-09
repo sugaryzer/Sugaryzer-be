@@ -35,7 +35,7 @@ apiRouter.get("/api/products/:productId(\\d+)/recommendations", RecommendationCo
 apiRouter.post("/api/products/:productId(\\d+)/recommendations", RecommendationController.create);
 
 //Scanned Products API
-apiRouter.get("/api/scanned-products", ScannedProductController.getAll);
+//apiRouter.get("/api/scanned-products", ScannedProductController.getAll);
 apiRouter.get("/api/users/current/scanned-products", ScannedProductController.getAllByUserId);
 apiRouter.post("/api/users/current/scanned-products", ScannedProductController.create);
 apiRouter.get("/api/users/current/scanned-products/:scannedProductId(\\d+)", ScannedProductController.get);

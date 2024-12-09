@@ -59,76 +59,6 @@
 
 /**
  * @swagger
- * /api/scanned-products:
- * 
- *   get:
- *      parameters:
- *       - in: query
- *         name: page
- *         schema:
- *           type: integer
- *         description: Which page to show
- *       - in: query
- *         name: size
- *         schema:
- *           type: integer
- *         description: The numbers of items to return per page
- *      security:
- *      - bearerAuth: []
- *      summary: Return ALL scanned products
- *      operationId: getAll
- *      tags: [ScannedProducts]
- *      responses:
- *          200:
- *              description: List of scanned products
- *              content:
- *                  application/json:
- *                      schema:
- *                        type: array
- *                        items:
- *                            type: object
- *                            properties:
- *                                error:
- *                                    type: boolean
- *                                message:
- *                                    type: string
- *                                result:
- * 
- *                      example:
- *                          {
- *                            "error": false,
- *                            "message": "Scanned products history retrieved successfully",
- *                            "result": {
- *                              "data": [
- *                                {
- *                                  "id": 1,
- *                                  "userId": "cm4dzb47a0000s9hlq2r7m24z",
- *                                  "product": {
- *                                    "id": 1,
- *                                    "code": "8996001600146",
- *                                    "name": "tehPucuk Melati - mayora - 350 ml",
- *                                    "image": "https://images.openfoodfacts.org/images/products/899/600/160/0146/front_id.21.400.jpg",
- *                                    "category": "Tea-based beverages",
- *                                    "amountOfSugar": 18
- *                                  },
- *                                  "productId": 1,
- *                                  "sugarConsume": 0,
- *                                  "createdAt": "2024-12-07T10:30:07.951Z"
- *                                }
- *                              ],
- *                              "paging": {
- *                                "size": 10,
- *                                "total_page": 1,
- *                                "current_page": 1
- *                              }
- *                            }
- *                          }
- *                                  
- * 
- */
-
-/**
- * @swagger
  * /api/users/current/scanned-products:
  *
  *   post:
@@ -143,14 +73,14 @@
  *                  schema:
  *                      types: object
  *                      properties:
- *                          productId:
- *                              type: integer
+ *                          code:
+ *                              type: string
  *                          sugarConsume:
  *                              type: integer
  *                  examples:
  *                      First:
  *                          value:
- *                              productId: 0
+ *                              code: "8996001600146"
  *                              sugarConsume: 10
  *      responses:
  *          200:
