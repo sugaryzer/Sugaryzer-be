@@ -43,7 +43,7 @@ export class UserService {
             email: user.email
         }
         const secret = process.env.ACCESS_TOKEN_SECRET!
-        const accessToken = jwt.sign(payload, secret, {expiresIn: 60 * 60 * 1})
+        const accessToken = jwt.sign(payload, secret, {expiresIn: 60 * 60 * 24 * 7})
 
         const response = transformUserResponse(user)
         response.access_token = accessToken
