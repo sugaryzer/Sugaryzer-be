@@ -80,7 +80,10 @@ Backend service for Sugaryzer, sugar tracking in drinks application.
 3. Install dependencies:
    ```bash
    npm install
-4. Make .env file and follow the .env.example
+4. Make .env file and follow the .env.example, if you dont have ML server setup yet comment out the related URL
+   - "/api/products/:productBarcode(\\d+)/recommendations"
+   - "/api/products/scan"
+   - "/api/users/current/analysis"
 5. Run the application:
    ```bash
    npm run dev
