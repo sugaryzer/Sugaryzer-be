@@ -42,7 +42,16 @@
  *       type: integer
  *     required: true
  *     description: Code of product to get its recommendations                                                              
- * 
+ *   - in: query
+ *     name: page
+ *     schema:
+ *       type: integer
+ *     description: Which page to show
+ *   - in: query
+ *     name: size
+ *     schema:
+ *       type: integer
+ *     description: The numbers of items to return per page
  *   get:
  *      security:
  *      - bearerAuth: []
@@ -66,34 +75,79 @@
  *                                result:
  * 
  *                      example:
- *                          error: false
- *                          message: products retrieved successfully
- *                          result:
- *                              - data:
- *                                - altProduct:
- *                                    id: 6
- *                                    code: "8886008101053"
- *                                    name: "aqua btl - Danone - 600 ml"
- *                                    image: "https://images.openfoodfacts.org/images/products/888/600/810/1053/front_en.18.400.jpg"
- *                                    category: "Natural mineral waters"
- *                                    amountOfSugar: 0
- *                                  productId: 4
- *                                  altProductId: 6
- *                                  sugarDifference: -18
- *                                - altProduct:
- *                                    id: 7
- *                                    code: "1234567890123"
- *                                    name: "example product"
- *                                    image: "https://example.com/image.jpg"
- *                                    category: "Soft drinks"
- *                                    amountOfSugar: 10
- *                                  productId: 4
- *                                  altProductId: 7
- *                                  sugarDifference: -8
- *                                paging:
- *                                    size: 10
- *                                    total_page: 1
- *                                    current_page: 1
+ *                          {
+ *                            "error": false,
+ *                            "message": "Recommendations retrieved successfully",
+ *                            "result": {
+ *                              "data": [
+ *                                {
+ *                                  "altProduct": {
+ *                                    "id": 6,
+ *                                    "code": "8997222540174",
+ *                                    "name": "Toza Jus Buah Sirsak 1 ",
+ *                                    "image": "asd",
+ *                                    "category": "Jus & Sari Buah",
+ *                                    "amountOfSugar": 5
+ *                                  },
+ *                                  "productId": 7,
+ *                                  "altProductId": 6,
+ *                                  "sugarDifference": -5
+ *                                },
+ *                                {
+ *                                  "altProduct": {
+ *                                    "id": 9,
+ *                                    "code": "711844162419",
+ *                                    "name": "asd",
+ *                                    "image": "asd",
+ *                                    "category": "asd",
+ *                                    "amountOfSugar": 0
+ *                                  },
+ *                                  "productId": 7,
+ *                                  "altProductId": 9,
+ *                                  "sugarDifference": 0
+ *                                },
+ *                                {
+ *                                  "altProduct": {
+ *                                    "id": 0,
+ *                                    "code": "N/A",
+ *                                    "name": "N/A",
+ *                                    "image": "N/A",
+ *                                    "category": "N/A",
+ *                                    "amountOfSugar": 0
+ *                                  },
+ *                                  "productId": 7,
+ *                                  "altProductId": 0,
+ *                                  "sugarDifference": 2
+ *                                },
+ *                                {
+ *                                  "altProduct": {
+ *                                    "id": 0,
+ *                                    "code": "N/A",
+ *                                    "name": "N/A",
+ *                                    "image": "N/A",
+ *                                    "category": "N/A",
+ *                                    "amountOfSugar": 0
+ *                                  },
+ *                                  "productId": 7,
+ *                                  "altProductId": 0,
+ *                                  "sugarDifference": 3
+ *                                },
+ *                                {
+ *                                  "altProduct": {
+ *                                    "id": 0,
+ *                                    "code": "N/A",
+ *                                    "name": "N/A",
+ *                                    "image": "N/A",
+ *                                    "category": "N/A",
+ *                                    "amountOfSugar": 0
+ *                                  },
+ *                                  "productId": 7,
+ *                                  "altProductId": 0,
+ *                                  "sugarDifference": 3.9000000000000004
+ *                                }
+ *                              ]
+ *                            }
+ *                          }
  *                                  
  * 
  */

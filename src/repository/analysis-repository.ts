@@ -22,8 +22,12 @@ export class AnalysisRepository {
         } )
     }
     
-    static async countAnalyses(){
-        return await prismaClient.analysis.count()
+    static async countAnalyses(userId: string){
+        return await prismaClient.analysis.count({
+            where:{
+                userId
+            }
+        })
     }
     
     static async findAnalysisByDate(date: string, userId: string){

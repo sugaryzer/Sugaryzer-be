@@ -8,32 +8,12 @@ import { Pageable } from "../model/page";
 import { AnalysisRepository } from "../repository/analysis-repository";
 
 export class ScannedProductService {
-    
-    static async getAll(request: ScannedProductGetRequest): Promise<Pageable<ScannedProductResponse>>{
-        const validated = Validation.validate(ScannedProductValidation.GET, request);     
-         
-        const scannedProducts = await ScannedProductRepository.findScannedProducts(validated);
-        const total = await ScannedProductRepository.countScannedProducts();
-
-        if (!scannedProducts) {
-            throw new ResponseError(404, "No product yet.");
-        }
-
-        return {
-            data: scannedProducts.map((product) => toScannedProductResponse(product)),
-            paging: {
-                size: validated.size,
-                total_page: Math.ceil(total / validated.size),
-                current_page: validated.page,
-            }
-        }
-    }
 
     static async getByUserId( request: ScannedProductGetRequest, userId: string ): Promise<Pageable<ScannedProductResponse>> {
         const validated = Validation.validate(ScannedProductValidation.GET, request);
 
         const scannedProducts = await ScannedProductRepository.findAllByUserId(validated, userId);
-        const total = await ScannedProductRepository.countScannedProducts();
+        const total = await ScannedProductRepository.countScannedProducts(userId);
 
         if (!scannedProducts) {
             throw new ResponseError(404, 'Scanned product not found.');

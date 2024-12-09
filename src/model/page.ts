@@ -8,7 +8,3 @@ export type Pageable<T> = {
     data: Array<T>;
     paging: Paging
 }
-
-export type ArrayResponse<T> = {
-    data: Array<T>;
-}

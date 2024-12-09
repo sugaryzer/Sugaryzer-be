@@ -12,7 +12,7 @@ export class AnalysisService {
          
         const analyses = await AnalysisRepository.findAnalyses(validated, userId);
 
-        const total = await AnalysisRepository.countAnalyses();
+        const total = await AnalysisRepository.countAnalyses(userId);
         return {
             data: analyses.map((analysis) => transformAnalysisResponse(analysis)),
             paging: {

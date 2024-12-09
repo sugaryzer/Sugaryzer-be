@@ -73,7 +73,11 @@ export class ScannedProductRepository {
     })
    }
 
-   static async countScannedProducts(){
-    return await prismaClient.scannedproduct.count()
+   static async countScannedProducts(userId: string){
+    return await prismaClient.scannedproduct.count({
+        where: {
+            userId
+        }
+    })
 }
 }
