@@ -43,6 +43,11 @@
  *          schema:
  *            type: integer
  *          description: The numbers of items to return per page
+ *        - in: query
+ *          name: date
+ *          schema:
+ *            type: string
+ *          description: Date of analysis that needs to be retrieved
  *      security:
  *      - bearerAuth: []
  *      summary: Return all current users analysis
