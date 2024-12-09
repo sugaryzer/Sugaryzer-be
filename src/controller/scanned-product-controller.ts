@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 import { ResponseError } from "../error/response-error";
 import { ScannedProductService } from "../service/scanned-product-service";
 import { CreateScannedProductRequest, ScannedProductGetRequest } from "../model/scanned-product-model";
