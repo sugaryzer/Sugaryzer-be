@@ -77,17 +77,21 @@ Backend service for Sugaryzer, sugar tracking in drinks application.
 1. Clone this repository:
    ```bash
    git clone https://github.com/sugaryzer/Sugaryzer-be.git
-3. Install dependencies:
+2. Install dependencies:
    ```bash
    npm install
-4. Make .env file and follow the .env.example, if you dont have ML server setup yet comment out the related URL
+3. Initialize Prisma
+   ```bash
+   npx prisma generate
+   npx prisma db push
+5. Make .env file and follow the .env.example, if you dont have ML server setup yet comment out the related URL
    - "/api/products/:productBarcode(\\d+)/recommendations"
    - "/api/products/scan"
    - "/api/users/current/analysis"
-5. Run the application:
+6. Run the application:
    ```bash
    npm run dev
-6. Access the API at http://localhost:PORT.
+7. Access the API at http://localhost:PORT.
 
 
 ## Scripts
