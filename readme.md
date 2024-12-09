@@ -73,7 +73,18 @@ Backend service for Sugaryzer, sugar tracking in drinks application.
 └── package.json
 ```
 
-### Installation and Setup
+### Installation and Setup (LOCAL)
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/sugaryzer/Sugaryzer-be.git
+3. Install dependencies:
+   ```bash
+   npm install
+4. Make .env file and follow the .env.example
+5. Run the application:
+   ```bash
+   python app.py
+6. Access the API at http://localhost:PORT.
 
 
 ## Scripts
