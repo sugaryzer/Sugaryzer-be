@@ -1,6 +1,5 @@
-import { Product } from "@prisma/client";
 import { prismaClient } from "../lib/db";
-import { CreateScannedProductRequest, ScannedProduct, ScannedProductGetRequest } from "../model/scanned-product-model";
+import { CreateScannedProductRequest, ScannedProductGetRequest } from "../model/scanned-product-model";
 
 
 export class ScannedProductRepository {

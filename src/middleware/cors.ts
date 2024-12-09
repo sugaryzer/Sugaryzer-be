@@ -6,7 +6,7 @@ const corsMiddleware = () => {
     return cors(); // Allow all origins in development
   } else {
     return cors({
-      origin: 'https://front.com', // Specific origin for production
+      origin: process.env.FRONT_URL, // Specific origin for production
       methods: ['GET', 'POST'],
       allowedHeaders: ['Content-Type']
     });

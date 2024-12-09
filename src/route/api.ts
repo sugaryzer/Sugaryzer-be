@@ -31,8 +31,7 @@ apiRouter.get("/api/products/:productId(\\d+)", ProductController.get);
 apiRouter.delete("/api/products/:productId(\\d+)", ProductController.remove);
 
 //Recommendations API
-apiRouter.get("/api/products/:productId(\\d+)/recommendations", RecommendationController.get);
-apiRouter.post("/api/products/:productId(\\d+)/recommendations", RecommendationController.create);
+apiRouter.get("/api/products/:productBarcode(\\d+)/recommendations", RecommendationController.get);
 
 //Scanned Products API
 //apiRouter.get("/api/scanned-products", ScannedProductController.getAll);

@@ -47,7 +47,12 @@
  *          name: date
  *          schema:
  *            type: string
- *          description: Date of analysis that needs to be retrieved
+ *          description: Specify date to get analysis (choose either with date or daily_sugar_intake)
+ *        - in: query
+ *          name: daily_sugar_intake
+ *          schema:
+ *            type: int
+ *          description: Send daily intake to ML server (choose either with date or daily_sugar_intake)
  *      security:
  *      - bearerAuth: []
  *      summary: Return all current users analysis

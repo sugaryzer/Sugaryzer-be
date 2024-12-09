@@ -5,7 +5,6 @@ import { ScannedProductRepository } from "../repository/scanned-product-reposito
 import { ResponseError } from "../error/response-error";
 import { ProductRepository } from "../repository/product-repository";
 import { Pageable } from "../model/page";
-import { AnalysisService } from "./analysis-service";
 import { AnalysisRepository } from "../repository/analysis-repository";
 
 export class ScannedProductService {
@@ -70,7 +69,7 @@ export class ScannedProductService {
         }
 
         //insert scanned product to db
-        let scannedProduct: ScannedProduct = await ScannedProductRepository.createScannedProduct(request, product.id, userId) as any;
+        const scannedProduct: ScannedProduct = await ScannedProductRepository.createScannedProduct(request, product.id, userId) as unknown as ScannedProduct;
 
         //update current user analysis
         const currentDate = new Date();

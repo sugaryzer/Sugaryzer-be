@@ -68,7 +68,7 @@ export class ProductRepository {
 
     static async handleImageProcessing(data: Buffer){
         try {
-            const response = await request.post(`${process.env.OCR_URL}`)
+            const response = await request.post(`${process.env.ML_URL}/barcode`)
                 .attach('file', data, 'file'); // (field?, image in Buffer(value), key)
                 return response.body;
         } catch (error) {

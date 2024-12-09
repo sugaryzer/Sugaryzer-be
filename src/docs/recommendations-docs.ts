@@ -34,88 +34,16 @@
 
 /**
  * @swagger
- * /api/products/{productId}/recommendations:
+ * /api/products/{productBarcode}/recommendations:
  *   parameters:
  *   - in: path
- *     name: productId
+ *     name: productBarcode
  *     schema:
  *       type: integer
  *     required: true
- *     description: Id of product to get/add its recommendations
- * 
- *   post:
- *      security:
- *      - bearerAuth: []
- *      summary: +recommendation to a product (sugarDifference is optional as its calculated by default)
- *      operationId: create
- *      tags: [Recommendations]
- *      requestBody:
- *          content:
- *              application/json:
- *                  schema:
- *                      types: object
- *                      properties:
- *                          productId:
- *                              type: integer
- *                          altProductId:
- *                              type: integer
- *                          sugarDifference:
- *                              type: integer
- *                  examples:
- *                      First:
- *                          value:
- *                              altProductId: 6
- *                      Second:
- *                          value:
- *                              altProductId: 6
- *                              sugarDifference: -18
- *      responses:
- *                200:
- *                    description: Return the created recommendation
- *                    content:
- *                        application/json:
- *                              schema:
- *                                type: array
- *                                items:
- *                                    type: object
- *                                    properties:
- *                                        error:
- *                                            type: boolean
- *                                        message:
- *                                            type: string
- *                                        result:
- * 
- *                              example:
- *                                  error: false
- *                                  message: product created successfully
- *                                  result:
- *                                     - data:
- *                                          - altProduct:
- *                                                id: 7
- *                                                code: "1234567890123"
- *                                                name: "example product"
- *                                                image: "https://example.com/image.jpg"
- *                                                category: "Soft drinks"
- *                                                amountOfSugar: 10
- *                                            productId: 4
- *                                            altProductId: 7
- *                                            sugarDifference: -8
- *                                    
- *                          
- *                              
+ *     description: Code of product to get its recommendations                                                              
  * 
  *   get:
- *      parameters:
- *        - in: query
- *          name: page
- *          schema:
- *            type: integer
- *          description: Which page to show
- *        - in: query
- *          name: size
- *          schema:
- *            type: integer
- *          description: The numbers of items to return per page
  *      security:
  *      - bearerAuth: []
  *      summary: Return recommendations for a product

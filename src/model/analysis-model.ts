@@ -5,6 +5,12 @@ export type AnalysisResponse = {
     date: Date;
 }
 
+export type MLAnalysisResponse = {
+    advice: string;
+    category: string;
+    total: number;
+}
+
 export type AnalysisCreateRequest = {
     totalConsume: number;
     date?: Date;

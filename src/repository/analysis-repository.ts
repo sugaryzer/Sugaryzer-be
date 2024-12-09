@@ -1,5 +1,6 @@
 import { prismaClient } from "../lib/db";
-import { AnalysisCreateRequest, AnalysisGetAllRequest, AnalysisUpdateRequest } from "../model/analysis-model";
+import { AnalysisGetAllRequest } from "../model/analysis-model";
+import request from "superagent";
 
 export class AnalysisRepository {
 
@@ -91,5 +92,15 @@ export class AnalysisRepository {
                 }
             }
         });
+    }
+
+    static async mlAnalysis(dailySugar: number){
+        try {
+            const response = await request.post(`${process.env.ML_URL}/predict`)
+            .send({ daily_sugar_intake: dailySugar });
+            return response.body
+        } catch (error) {
+            console.error(error);
+        }
     }
 }

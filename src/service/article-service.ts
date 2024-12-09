@@ -11,6 +11,7 @@ export class ArticleService {
         const validated = Validation.validate(ArticleValidation.GET, request);     
          
         const articles = await ArticleRepository.findArticles(validated);
+
         const total = await ArticleRepository.countArticles();
         return {
             data: articles.map((article) => transformArticleResponse(article)),

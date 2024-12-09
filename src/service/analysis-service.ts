@@ -1,5 +1,5 @@
 import { ResponseError } from "../error/response-error";
-import { AnalysisCreateRequest, AnalysisGetAllRequest, AnalysisResponse, AnalysisUpdateRequest, transformAnalysisResponse } from "../model/analysis-model";
+import { AnalysisCreateRequest, AnalysisGetAllRequest, AnalysisResponse, AnalysisUpdateRequest, MLAnalysisResponse, transformAnalysisResponse } from "../model/analysis-model";
 import { Pageable } from "../model/page";
 import { AnalysisRepository } from "../repository/analysis-repository";
 import { AnalysisValidation } from "../validation/analysis-validation";
@@ -81,6 +81,10 @@ export class AnalysisService {
         }else{
             throw new ResponseError(404, 'Analysis does not exist.');
         }; 
+    }
+
+    static async mlAnalysis(dailySugar: number): Promise <MLAnalysisResponse>{
+        return AnalysisRepository.mlAnalysis(dailySugar);
     }
 
 }

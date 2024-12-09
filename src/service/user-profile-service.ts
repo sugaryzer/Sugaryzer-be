@@ -46,7 +46,7 @@ export class UserProfileService {
             const result = await UserProfileRepository.updateUserProfileImage({userId, image: imageUrl})
 
             return transformUserProfileResponse(result)
-        } catch(error){
+        } catch {
             throw new ResponseError(500, "Something went wrong when saving the image")
         }
     }
