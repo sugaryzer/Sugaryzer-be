@@ -85,10 +85,7 @@ Backend service for Sugaryzer, sugar tracking in drinks application.
    ```bash
    npx prisma generate
    npx prisma db push
-5. Make .env file and follow the .env.example, if you dont have ML server setup yet comment out the related URL
-   - "/api/products/:productBarcode(\\d+)/recommendations"
-   - "/api/products/scan"
-   - "/api/users/current/analysis"
+5. Make .env file and follow the .env.example
 6. Run the application:
    ```bash
    npm run dev
