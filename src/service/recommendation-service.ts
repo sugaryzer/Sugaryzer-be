@@ -30,7 +30,7 @@ export class RecommendationService {
             data,
             paging: {
                 size: size,
-                total_page: Math.ceil(recommendations.length),
+                total_page: Math.ceil(recommendations.length/size),
                 current_page: page,
             }
         }

@@ -34,9 +34,7 @@ export class ScannedProductRepository {
                 product: true,
             },
             orderBy: {
-                product: {
                     createdAt: 'desc',
-                },
             },
             take: data.size,
             skip: skip

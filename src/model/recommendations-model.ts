@@ -30,14 +30,14 @@ export type MLResponse = {
 
 export async function toRecommendationResponse(recommendation: MLResponse, productCode: string) : Promise<RecommendationResponse>{
     const altProduct: Product = await ProductRepository.findProductByCode(`${recommendation.product_id}`) ?? {
-        name: "N/A",
+        name: recommendation.product_name,
         id: 0,
-        code: "N/A",
+        code: `${recommendation.product_id}`,
         image: "N/A",
-        category: "N/A",
-        amountOfSugar: 0,
-        createdAt: new Date("404-404-40"),
-        updatedAt: new Date("404-404-40"),
+        category: recommendation.category,
+        amountOfSugar: recommendation.sugar_intake,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       };
     const product: Product = await ProductRepository.findProductByCode(`${productCode}`) ?? {
         name: "N/A",
@@ -46,8 +46,8 @@ export async function toRecommendationResponse(recommendation: MLResponse, produ
         image: "N/A",
         category: "N/A",
         amountOfSugar: 0,
-        createdAt: new Date("404-404-40"),
-        updatedAt: new Date("404-404-40"),
+        createdAt: new Date(),
+        updatedAt: new Date(),
     };
     return {
         altProduct: toProductResponse(altProduct),

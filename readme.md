@@ -94,9 +94,11 @@ Backend service for Sugaryzer, sugar tracking in drinks application.
 
 ## Scripts
 - `npm run dev` Start the server with Nodemon for live reload.
-- `npm run format`
+- `npm run format` Use prettier to format the code
 - `npm run lint` Run ESLint to check for code quality issues.
-- `npm run lint:fix`
+- `npm run lint:fix` RUN ESLing to apply automatic fix
+- `npm run build`: Build the typescript to javascript,
+- `npm start`: Start the server,
 
 ## Response
 ```json
