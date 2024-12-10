@@ -13,7 +13,7 @@ export class RecommendationService {
 
         const recommendations:MLResponse[] = await RecommendationRepository.findRecommendationsByProductCode(Number(code));
         if (!recommendations) {
-            throw new ResponseError(404, 'Recommendation not found.');
+            throw new ResponseError(500, 'Failed to retrieve data from Flask server.');
           }
 
           const startIndex = (page - 1) * size;

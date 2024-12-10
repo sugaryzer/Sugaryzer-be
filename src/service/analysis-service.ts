@@ -84,7 +84,11 @@ export class AnalysisService {
     }
 
     static async mlAnalysis(dailySugar: number): Promise <MLAnalysisResponse>{
-        return AnalysisRepository.mlAnalysis(dailySugar);
+        const analysis = await AnalysisRepository.mlAnalysis(dailySugar);
+        if (!analysis) {
+            throw new ResponseError (500, "Failed to retrieve data from Flask server")
+        }
+        return analysis ;
     }
 
 }
