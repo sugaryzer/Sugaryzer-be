@@ -15,6 +15,7 @@ Backend service for Sugaryzer, sugar tracking in drinks application.
 | **Nodemon**           | Automatically restarts the server on file changes during development.         |
 | **Compute Engine**     | Google Cloud VM to host PostgreSQL.                                         |
 | **Cloud Storage**      | Used to store files and media assets.                                       |
+| **Cloud Run**      | Host Express backend server and Machine Learning server (Flask)                                       |
 | **JWT**                | JSON Web Token for user authentication and authorization.                   |
 | **Zod**                | Schema validation library for validating request bodies.                     |
 | **ESLint**             | Linter to enforce code quality and consistency.                             |
